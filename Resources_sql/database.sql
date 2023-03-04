@@ -6,16 +6,18 @@ CREATE SCHEMA mercancia;
 CREATE SCHEMA comercio;
 CREATE SCHEMA consumidores;
 
-CREATE TABLE colaboradores.admin(
-    nickname VARCHAR(20) NOT NULL,
-    passw VARCHAR(20) NOT NULL,
-    PRIMARY KEY(nickname)
-);
-
 CREATE TABLE colaboradores.rol(
     id INT NOT NULL,
     nombre VARCHAR(10) NOT NULL,
     PRIMARY KEY(id)
+);
+
+CREATE TABLE colaboradores.planilla(
+    empleado VARCHAR(20) NOT NULL,
+    sucursal VARCHAR(10) NOT NULL,
+    PRIMARY KEY(empleado),
+    Foreign Key (empleado) REFERENCES colaboradores.empleado (nickname),
+    Foreign Key (sucursal) REFERENCES infraestructura.sucursal(id)
 );
 
 CREATE TABLE colaboradores.empleado(
@@ -23,10 +25,8 @@ CREATE TABLE colaboradores.empleado(
     passw VARCHAR(20) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     rol INT NOT NULL,
-    sucursal VARCHAR(10) NOT NULL,
     PRIMARY KEY(nickname)
     Foreign Key (rol) REFERENCES colaboradores.rol(id),
-    Foreign Key (sucursal) REFERENCES infraestructura.sucursal(id)
 );
 
 CREATE TABLE infraestructura.sucursal(
