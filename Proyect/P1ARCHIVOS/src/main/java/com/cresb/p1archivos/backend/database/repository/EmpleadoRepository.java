@@ -22,7 +22,25 @@ public class EmpleadoRepository {
                 if (rs.next()) {
                     Empleado empleado = new Empleado();
                     empleado.setNickname(rs.getString("nickname"));
-                    empleado.setPassw(rs.getString("passw"));
+                    empleado.setPassw(null);
+                    empleado.setNombre(rs.getString("nombre"));
+                    empleado.setRol(rolRepository.findById(rs.getInt("rol")));
+                    return empleado;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public Empleado login(String nickname,String password) throws SQLException{
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ? AND passw = ?")) {
+            stmt.setString(1, nickname);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Empleado empleado = new Empleado();
+                    empleado.setNickname(rs.getString("nickname"));
+                    empleado.setPassw(null);
                     empleado.setNombre(rs.getString("nombre"));
                     empleado.setRol(rolRepository.findById(rs.getInt("rol")));
                     return empleado;
