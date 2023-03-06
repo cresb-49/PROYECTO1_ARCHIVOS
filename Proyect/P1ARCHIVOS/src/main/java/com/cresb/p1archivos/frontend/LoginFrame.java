@@ -4,7 +4,10 @@
  */
 package com.cresb.p1archivos.frontend;
 
-import com.cresb.p1archivos.backend.database.LoginDB;
+import com.cresb.p1archivos.backend.database.repository.EmpleadoRepository;
+import com.cresb.p1archivos.backend.models.Empleado;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,8 +15,8 @@ import com.cresb.p1archivos.backend.database.LoginDB;
  */
 public class LoginFrame extends javax.swing.JDialog {
     
-    private LoginDB loginDB = new LoginDB();
-    private int option = 0;
+    private EmpleadoRepository empleadoRepository;
+    private Empleado empleado = null;
     
     public LoginFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -99,12 +102,17 @@ public class LoginFrame extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String usuario = this.fieldUsuario.getText();
         String password = "";
-        
-        boolean logged = this.loginDB.login(usuario,password);
-        if(logged){
-            
-        }else{
-            
+        try {
+            empleado = this.empleadoRepository.login(usuario, password);
+            if(empleado!= null){
+                System.out.println("Login: Credenciales correctas");
+                //Cerramos el JDialog
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "Las credenciasles de entrada son incorrectas");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error DB: "+ ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -116,12 +124,12 @@ public class LoginFrame extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
-
-    public int getOption() {
-        return option;
+        
+    public Empleado getEmpleado(){
+        return empleado;
     }
     
     public void clearOption(){
-        this.option = 0;
+        this.empleado = null;
     }
 }
