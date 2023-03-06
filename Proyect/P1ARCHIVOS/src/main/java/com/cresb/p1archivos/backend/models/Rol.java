@@ -2,6 +2,11 @@ package com.cresb.p1archivos.backend.models;
 
 public class Rol {
 
+    public static final int VENDEDOR = 1;
+    public static final int INVENTARIO = 2;
+    public static final int BODEGA = 3;
+    public static final int ADMIN = 4;
+
     private int id;
     private String nombre;
 
