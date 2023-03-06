@@ -5,13 +5,16 @@ public class Empleado {
     private String nickname;
     private String passw;
     private String nombre;
-    private int rol;
+    private Rol rol;
 
-    public Empleado(String nickname, String passw, String nombre, int rol) {
+    public Empleado(String nickname, String passw, String nombre, Rol rol) {
         this.nickname = nickname;
         this.passw = passw;
         this.nombre = nombre;
         this.rol = rol;
+    }
+
+    public Empleado() {
     }
 
     public String getNickname() {
@@ -38,11 +41,11 @@ public class Empleado {
         this.nombre = nombre;
     }
 
-    public int getRol() {
+    public Rol getRol() {
         return rol;
     }
 
-    public void setRol(int rol) {
+    public void setRol(Rol rol) {
         this.rol = rol;
     }
 
@@ -75,9 +78,7 @@ public class Empleado {
                 return false;
         } else if (!passw.equals(other.passw))
             return false;
-        if (rol != other.rol)
-            return false;
-        return true;
+        return rol == other.rol;
     }
 
     @Override
@@ -87,7 +88,6 @@ public class Empleado {
         result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
         result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
         result = prime * result + ((passw == null) ? 0 : passw.hashCode());
-        result = prime * result + rol;
         return result;
     }
 }

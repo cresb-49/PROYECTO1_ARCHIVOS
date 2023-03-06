@@ -1,24 +1,22 @@
 package com.cresb.p1archivos.backend.models;
 
-import java.util.List;
-
 public class Descripcion {
 
-    private List<Producto> producto;
+    private Producto producto;
     private String venta;
     private int cantidad;
 
-    public Descripcion(List<Producto> producto, String venta, int cantidad) {
+    public Descripcion(Producto producto, String venta, int cantidad) {
         this.producto = producto;
         this.venta = venta;
         this.cantidad = cantidad;
     }
 
-    public List<Producto> getProducto() {
+    public Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(List<Producto> producto) {
+    public void setProducto(Producto producto) {
         this.producto = producto;
     }
 

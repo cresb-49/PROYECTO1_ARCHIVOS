@@ -16,6 +16,9 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
+    public Producto() {
+    }
+
     public String getId() {
         return id;
     }

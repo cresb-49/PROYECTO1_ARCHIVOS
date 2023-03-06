@@ -8,12 +8,12 @@ public class Venta {
 
     private String id;
     private Date fecha;
-    private String cliente;
-    private String empleado;
-    private BigDecimal descuento;
+    private Cliente cliente;
+    private Empleado empleado;
+    private double descuento;
     private List<Descripcion> descripcion;
 
-    public Venta(String id, Date fecha, String cliente, String empleado, BigDecimal descuento,List<Descripcion> descripcion) {
+    public Venta(String id, Date fecha, Cliente cliente, Empleado empleado, double descuento,List<Descripcion> descripcion) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
@@ -38,27 +38,27 @@ public class Venta {
         this.fecha = fecha;
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public String getEmpleado() {
+    public Empleado getEmpleado() {
         return empleado;
     }
 
-    public void setEmpleado(String empleado) {
+    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
 
-    public BigDecimal getDescuento() {
+    public double getDescuento() {
         return descuento;
     }
 
-    public void setDescuento(BigDecimal descuento) {
+    public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
 
