@@ -20,6 +20,7 @@ public class LoginFrame extends javax.swing.JDialog {
     
     public LoginFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.setLocationRelativeTo(null);
         initComponents();
     }
 
