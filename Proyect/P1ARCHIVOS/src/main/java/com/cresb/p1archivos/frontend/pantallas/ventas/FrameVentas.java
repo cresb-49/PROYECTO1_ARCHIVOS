@@ -1,15 +1,23 @@
-package com.cresb.p1archivos.frontend.pantallas;
+package com.cresb.p1archivos.frontend.pantallas.ventas;
 
+import com.cresb.jdynamictable.JDynamicTable;
+import com.cresb.jdynamictable.columns.ImageColumnTable;
+import com.cresb.jdynamictable.columns.NumberColumnTable;
+import com.cresb.jdynamictable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
 import com.cresb.p1archivos.backend.models.Cliente;
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.models.tableModels.TableDescripcion;
+import com.cresb.p1archivos.frontend.pantallas.RegistrarCliente;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class FrameVentas extends javax.swing.JFrame {
     
     private ClienteRepository clienteRepository;
     private Empleado empleado = null;
+    private JDynamicTable<TableDescripcion> dt;
     
     
     //Variable para el momento de la venta
@@ -23,6 +31,8 @@ public class FrameVentas extends javax.swing.JFrame {
     public FrameVentas(Empleado empleado) {
         initComponents();
         this.empleado = empleado;
+        this.dt = new JDynamicTable<>(this.jTable1,this);
+        this.inicializarTabla();
     }
 
     /**
@@ -236,5 +246,19 @@ public class FrameVentas extends javax.swing.JFrame {
     private void mostrarInfoCliente() {
         this.fieldNit.setText(this.cliente.getNit());
         this.fieldNombre.setText(cliente.getNombre());
+    }
+
+    private void inicializarTabla() {
+        dt.addColumn(new TextColumnTable("Codigo", "codigo", true, 100));
+        dt.addColumn(new TextColumnTable("Nombre", "nombre", false, 100));
+        dt.addColumn(new NumberColumnTable("Valor", "valor", false, 100));
+        dt.addColumn(new NumberColumnTable("Cantidad", "cantidad", false, 100));
+        ButtonModTabla btnMod = new ButtonModTabla("Modificar", "Modificar", 50);
+        btnMod.setTransparency(true);
+        ButtonDelTabla btnDel = new ButtonDelTabla("Eliminar", "Eliminar", 50);
+        btnMod.setTransparency(true);
+        dt.addColumn(btnMod);
+        dt.addColumn(btnDel);
+        dt.apply();
     }
 }

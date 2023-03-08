@@ -6,7 +6,7 @@ import com.cresb.p1archivos.frontend.LoginFrame;
 import com.cresb.p1archivos.frontend.pantallas.FrameAdmin;
 import com.cresb.p1archivos.frontend.pantallas.FrameBodega;
 import com.cresb.p1archivos.frontend.pantallas.FrameInventario;
-import com.cresb.p1archivos.frontend.pantallas.FrameVentas;
+import com.cresb.p1archivos.frontend.pantallas.ventas.FrameVentas;
 
 /**
  *
