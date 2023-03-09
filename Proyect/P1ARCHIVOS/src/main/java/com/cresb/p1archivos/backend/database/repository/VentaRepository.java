@@ -3,7 +3,6 @@ package com.cresb.p1archivos.backend.database.repository;
 import com.cresb.p1archivos.backend.models.Cliente;
 import com.cresb.p1archivos.backend.models.Descripcion;
 import com.cresb.p1archivos.backend.models.Empleado;
-import com.cresb.p1archivos.backend.models.Producto;
 import com.cresb.p1archivos.backend.models.Venta;
 import java.sql.*;
 import java.util.ArrayList;

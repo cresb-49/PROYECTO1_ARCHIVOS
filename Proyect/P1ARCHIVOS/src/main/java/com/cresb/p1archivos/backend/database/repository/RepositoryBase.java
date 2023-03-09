@@ -5,15 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * Abstract class to connect a database
  * @author Dango
  */
 public abstract class RepositoryBase {
-    private static final String conectionString = "";
     
-    public RepositoryBase(){}
+    private static final String URL = "jdbc:postgresql://localhost:5432/database";
+    private static final String USER = "postgres";
+    private static final String PASS = "201931012";
     
-    protected Connection GetConnection() throws SQLException{
-        return DriverManager.getConnection(conectionString);
+    protected static Connection GetConnection() throws SQLException{
+        return DriverManager.getConnection(URL,USER,PASS);
     }
 }
