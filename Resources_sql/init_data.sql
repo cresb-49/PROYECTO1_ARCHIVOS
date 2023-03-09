@@ -1,51 +1,40 @@
---Inserscion de datos en roles
-INSERT INTO colaboradores.rol VALUES(1,'VENDEDOR');
-INSERT INTO colaboradores.rol VALUES(2,'INVENTARIO');
-INSERT INTO colaboradores.rol VALUES(3,'BODEGA');
-INSERT INTO colaboradores.rol VALUES(4,'ADMIN');
-
---Igreso de la sucurlales de la empresa
-INSERT INTO infraestructura.sucursal VALUES('S0001','Central');
-INSERT INTO infraestructura.sucursal VALUES('S0002','Norte');
-INSERT INTO infraestructura.sucursal VALUES('S0003','Sur');
-
 --Inserscion de empleados
-INSERT INTO colaboradores.empleado VALUES ('usuario1', 'password1', 'Juan Pérez', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario2', 'password2', 'María García', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario3', 'password3', 'Pedro Hernández', 1);
-INSERT INTO colaboradores.planilla VALUES('usuario1','S0001');
-INSERT INTO colaboradores.planilla VALUES('usuario2','S0001');
-INSERT INTO colaboradores.planilla VALUES('usuario3','S0001');
+INSERT INTO colaborador.empleado VALUES ('usuario1', 'password1', 'Juan Pérez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario2', 'password2', 'María García', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario3', 'password3', 'Pedro Hernández', 1);
+INSERT INTO colaborador.planilla VALUES('usuario1','S0001');
+INSERT INTO colaborador.planilla VALUES('usuario2','S0001');
+INSERT INTO colaborador.planilla VALUES('usuario3','S0001');
 
-INSERT INTO colaboradores.empleado VALUES ('usuario4', 'password4', 'Ana López', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario5', 'password5', 'Jorge Fernández', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario6', 'password6', 'Carla Gómez', 1);
-INSERT INTO colaboradores.planilla VALUES('usuario4','S0002');
-INSERT INTO colaboradores.planilla VALUES('usuario5','S0002');
-INSERT INTO colaboradores.planilla VALUES('usuario6','S0002');
-
-
-INSERT INTO colaboradores.empleado VALUES ('usuario7', 'password7', 'Ricardo Martínez', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario8', 'password8', 'Sofía Rodríguez', 1);
-INSERT INTO colaboradores.empleado VALUES ('usuario9', 'password9', 'Alejandro Pérez', 1);
-INSERT INTO colaboradores.planilla VALUES('usuario7','S0003');
-INSERT INTO colaboradores.planilla VALUES('usuario8','S0003');
-INSERT INTO colaboradores.planilla VALUES('usuario9','S0003');
-
-INSERT INTO colaboradores.empleado VALUES ('usuario10', 'password10', 'Juan ALberto', 2);
-INSERT INTO colaboradores.empleado VALUES ('usuario11', 'password11', 'Lucia García', 2);
-INSERT INTO colaboradores.empleado VALUES ('usuario12', 'password12', 'Ana López', 2);
-INSERT INTO colaboradores.planilla VALUES('usuario10','S0001');
-INSERT INTO colaboradores.planilla VALUES('usuario11','S0002');
-INSERT INTO colaboradores.planilla VALUES('usuario12','S0003');
+INSERT INTO colaborador.empleado VALUES ('usuario4', 'password4', 'Ana López', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario5', 'password5', 'Jorge Fernández', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario6', 'password6', 'Carla Gómez', 1);
+INSERT INTO colaborador.planilla VALUES('usuario4','S0002');
+INSERT INTO colaborador.planilla VALUES('usuario5','S0002');
+INSERT INTO colaborador.planilla VALUES('usuario6','S0002');
 
 
-INSERT INTO colaboradores.empleado VALUES ('usuario13', 'password13', 'Pedro Martínez', 3);
-INSERT INTO colaboradores.empleado VALUES ('usuario14', 'password14', 'Laura Ruiz', 3);
-INSERT INTO colaboradores.empleado VALUES ('usuario15', 'password15', 'Carlos González', 3);
-INSERT INTO colaboradores.empleado VALUES ('usuario16', 'password16', 'Sofía Hernández', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario7', 'password7', 'Ricardo Martínez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario8', 'password8', 'Sofía Rodríguez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario9', 'password9', 'Alejandro Pérez', 1);
+INSERT INTO colaborador.planilla VALUES('usuario7','S0003');
+INSERT INTO colaborador.planilla VALUES('usuario8','S0003');
+INSERT INTO colaborador.planilla VALUES('usuario9','S0003');
 
-INSERT INTO colaboradores.empleado VALUES ('usuario17', 'password17', 'Lucas Sánchez', 4);
+INSERT INTO colaborador.empleado VALUES ('usuario10', 'password10', 'Juan ALberto', 2);
+INSERT INTO colaborador.empleado VALUES ('usuario11', 'password11', 'Lucia García', 2);
+INSERT INTO colaborador.empleado VALUES ('usuario12', 'password12', 'Ana López', 2);
+INSERT INTO colaborador.planilla VALUES('usuario10','S0001');
+INSERT INTO colaborador.planilla VALUES('usuario11','S0002');
+INSERT INTO colaborador.planilla VALUES('usuario12','S0003');
+
+
+INSERT INTO colaborador.empleado VALUES ('usuario13', 'password13', 'Pedro Martínez', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario14', 'password14', 'Laura Ruiz', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario15', 'password15', 'Carlos González', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario16', 'password16', 'Sofía Hernández', 3);
+
+INSERT INTO colaborador.empleado VALUES ('usuario17', 'password17', 'Lucas Sánchez', 4);
 
 -- Productos de electrodomésticos
 
