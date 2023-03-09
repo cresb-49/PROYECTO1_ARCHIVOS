@@ -5,18 +5,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteRepository {
-
-    private Connection conn;
-
-    public ClienteRepository(Connection conn) {
-        this.conn = conn;
+public class ClienteRepository extends RepositoryBase{
+    
+    public ClienteRepository() {
     }
 
     public void save(Cliente cliente) throws SQLException {
         String sql = "INSERT INTO consumidores.cliente(nit, nombre) VALUES (?, ?)";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNit());
             pstmt.setString(2, cliente.getNombre());
@@ -27,7 +24,7 @@ public class ClienteRepository {
     public Cliente findById(String nit) throws SQLException {
         String sql = "SELECT nit, nombre FROM consumidores.cliente WHERE nit = ?";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
             pstmt.setString(1, nit);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -42,7 +39,7 @@ public class ClienteRepository {
 
     public List<Cliente> findAll() throws SQLException {
         String sql = "SELECT nit, nombre FROM consumidores.cliente";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = GetConnection().prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<Cliente> clientes = new ArrayList<>();
@@ -57,7 +54,7 @@ public class ClienteRepository {
 
     public void update(Cliente cliente) throws SQLException {
         String sql = "UPDATE consumidores.cliente SET nombre = ? WHERE nit = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNombre());
             pstmt.setString(2, cliente.getNit());
@@ -67,7 +64,7 @@ public class ClienteRepository {
 
     public void delete(String nit) throws SQLException {
         String sql = "DELETE FROM consumidores.cliente WHERE nit = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
             pstmt.setString(1, nit);
             pstmt.executeUpdate();
         }

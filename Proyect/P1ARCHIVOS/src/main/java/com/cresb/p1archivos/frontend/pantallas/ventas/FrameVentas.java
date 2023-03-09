@@ -1,7 +1,6 @@
 package com.cresb.p1archivos.frontend.pantallas.ventas;
 
 import com.cresb.jdynamictable.JDynamicTable;
-import com.cresb.jdynamictable.columns.ImageColumnTable;
 import com.cresb.jdynamictable.columns.NumberColumnTable;
 import com.cresb.jdynamictable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
@@ -9,8 +8,8 @@ import com.cresb.p1archivos.backend.models.Cliente;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.tableModels.TableDescripcion;
 import com.cresb.p1archivos.frontend.pantallas.RegistrarCliente;
+import java.awt.HeadlessException;
 import java.sql.SQLException;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class FrameVentas extends javax.swing.JFrame {
@@ -249,16 +248,16 @@ public class FrameVentas extends javax.swing.JFrame {
     
     private void verificacionDeCliente(){
         try {
-            var cliente = this.clienteRepository.findById(this.fieldNit.getText());
-            if(cliente == null){
+            var result = this.clienteRepository.findById(this.fieldNit.getText());
+            if(result == null){
                 this.cliente = null;
                 this.fieldNombre.setText("");
                 JOptionPane.showMessageDialog(this, "No existe informacion de un cliente con NIT: "+this.fieldNit.getText(),"Cliente no encontrado",JOptionPane.ERROR_MESSAGE);
             }else{
-                this.cliente = cliente;
+                this.cliente = result;
                 this.mostrarInfoCliente();
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             System.out.println("Error al recuperar la informacion del cliente");
             this.fieldNombre.setText("");
         }
@@ -275,9 +274,9 @@ public class FrameVentas extends javax.swing.JFrame {
         dt.addColumn(new NumberColumnTable("Valor", "valor", false, 100));
         dt.addColumn(new NumberColumnTable("Cantidad", "cantidad", false, 100));
         ButtonModTabla btnMod = new ButtonModTabla("Modificar", "Modificar", 50);
-        btnMod.setTransparency(true);
+        //btnMod.setTransparency(true);
         ButtonDelTabla btnDel = new ButtonDelTabla("Eliminar", "Eliminar", 50);
-        btnMod.setTransparency(true);
+        //btnMod.setTransparency(true);
         dt.addColumn(btnMod);
         dt.addColumn(btnDel);
         dt.apply();

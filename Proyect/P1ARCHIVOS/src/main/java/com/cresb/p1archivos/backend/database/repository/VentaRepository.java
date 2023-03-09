@@ -9,23 +9,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VentaRepository {
+public class VentaRepository extends RepositoryBase{
     
     private ClienteRepository clienteRepository;
     private EmpleadoRepository empleadoRepository;
-    private DescripcionRepository descripcionRepository;    
+    private DescripcionRepository descripcionRepository;
     
-    private Connection conn;
-    
-    public VentaRepository(Connection conn) {
-        this.conn = conn;
-        this.clienteRepository = new ClienteRepository(conn);
-        this.empleadoRepository = new EmpleadoRepository(conn);
+    public VentaRepository() {
+        this.clienteRepository = new ClienteRepository();
+        this.empleadoRepository = new EmpleadoRepository();
     }
 
     public void agregarVenta(Venta venta) throws SQLException {
         String sql = "INSERT INTO comercio.venta(id, fecha, cliente, empleado, descuento) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql)) {
             statement.setString(1, venta.getId());
             statement.setDate(2, new java.sql.Date(venta.getFecha().getTime()));
             statement.setString(3, venta.getCliente().getNit());
@@ -40,7 +37,7 @@ public class VentaRepository {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT * FROM comercio.venta";
 
-        try (Statement statement = conn.createStatement();
+        try (Statement statement = GetConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 String id = resultSet.getString("id");

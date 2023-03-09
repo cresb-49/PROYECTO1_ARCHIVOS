@@ -6,20 +6,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DescripcionRepository {
+public class DescripcionRepository extends RepositoryBase{
 
     private ProductoRepository productoRepository;
-    private Connection conn;
 
-    public DescripcionRepository(Connection conn) {
-        this.conn = conn;
-        this.productoRepository= new ProductoRepository(conn);
+    public DescripcionRepository() {
+        this.productoRepository= new ProductoRepository();
     }
 
     public List<Descripcion> findAll() throws SQLException {
         List<Descripcion> result = new ArrayList<>();
         String sql = "SELECT * FROM comercio.descripcion";
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Producto producto = this.productoRepository.buscarProductoPorId(resultSet.getString("producto"));
@@ -36,7 +34,7 @@ public class DescripcionRepository {
     public List<Descripcion> findByVentaId(String venta) throws SQLException {
         List<Descripcion> result = new ArrayList<>();
         String sql = "SELECT * FROM comercio.descripcion WHERE venta  = ?";
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql)) {
             statement.setString(1, venta);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -51,7 +49,7 @@ public class DescripcionRepository {
     }
 
     public void save(Descripcion descripcion) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO comercio.descripcion (producto, venta, cantidad) VALUES (?, ?, ?)")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO comercio.descripcion (producto, venta, cantidad) VALUES (?, ?, ?)")) {
             stmt.setString(1, descripcion.getProducto().getId());
             stmt.setString(2, descripcion.getVenta());
             stmt.setInt(3, descripcion.getCantidad());

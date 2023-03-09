@@ -5,17 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoRepository {
+public class ProductoRepository extends RepositoryBase{
     
-    private Connection conn;
-    
-    public ProductoRepository(Connection conn) {
-        this.conn = conn;
+    public ProductoRepository() {
     }
     
     public void guardarProducto(Producto producto) throws SQLException {
         String sql = "INSERT INTO mercancia.producto (id, nombre, marca, valor, descripcion) VALUES (?, ?, ?, ?, ?);";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (PreparedStatement pst = GetConnection().prepareStatement(sql)) {
             pst.setString(1, producto.getId());
             pst.setString(2, producto.getNombre());
             pst.setString(3, producto.getMarca());
@@ -28,7 +25,7 @@ public class ProductoRepository {
     public Producto buscarProductoPorId(String id) throws SQLException {
         Producto producto = null;
         String sql = "SELECT id, nombre, marca, valor, descripcion FROM mercancia.producto WHERE id = ?;";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (PreparedStatement pst = GetConnection().prepareStatement(sql)) {
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -46,7 +43,7 @@ public class ProductoRepository {
     public List<Producto> buscarTodosLosProductos() throws SQLException {
         List<Producto> productos = new ArrayList<>();
         String sql = "SELECT id, nombre, marca, valor, descripcion FROM mercancia.producto;";
-        try (Statement st = conn.createStatement();
+        try (Statement st = GetConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Producto producto = new Producto();
@@ -63,7 +60,7 @@ public class ProductoRepository {
     
     public void actualizarProducto(Producto producto) throws SQLException {
         String sql = "UPDATE mercancia.producto SET nombre = ?, marca = ?, valor = ?, descripcion = ? WHERE id = ?;";
-        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (PreparedStatement pst = GetConnection().prepareStatement(sql)) {
             pst.setString(1, producto.getNombre());
             pst.setString(2, producto.getMarca());
             pst.setDouble(3, producto.getValor());
@@ -74,7 +71,7 @@ public class ProductoRepository {
     }
     
     public void eliminarProducto(String id) throws SQLException{
-        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM mercancia.producto WHERE id = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("DELETE FROM mercancia.producto WHERE id = ?")) {
             stmt.setString(1, id);
             stmt.executeUpdate();
         }

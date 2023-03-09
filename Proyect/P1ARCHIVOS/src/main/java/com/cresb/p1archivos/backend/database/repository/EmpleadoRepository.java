@@ -5,18 +5,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpleadoRepository {
+public class EmpleadoRepository extends RepositoryBase{
     
-    private Connection conn;
     private RolRepository rolRepository;
     
-    public EmpleadoRepository(Connection conn) {
-        this.conn = conn;
-        this.rolRepository = new RolRepository(conn);
+    public EmpleadoRepository() {
+        this.rolRepository = new RolRepository();
     }
     
     public Empleado findById(String nickname) throws SQLException{
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ?")) {
             stmt.setString(1, nickname);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -33,7 +31,7 @@ public class EmpleadoRepository {
     }
     
     public Empleado login(String nickname,String password) throws SQLException{
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ? AND passw = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ? AND passw = ?")) {
             stmt.setString(1, nickname);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -52,7 +50,7 @@ public class EmpleadoRepository {
 
     public List<Empleado> findAll() throws SQLException {
         List<Empleado> empleados = new ArrayList<>();
-        try (Statement stmt = conn.createStatement();
+        try (Statement stmt = GetConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM colaboradores.empleado")) {
             while (rs.next()) {
                 Empleado empleado = new Empleado();
@@ -67,7 +65,7 @@ public class EmpleadoRepository {
     }
 
     public void save(Empleado empleado) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO colaboradores.empleado VALUES (?, ?, ?, ?)")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO colaboradores.empleado VALUES (?, ?, ?, ?)")) {
             stmt.setString(1, empleado.getNickname());
             stmt.setString(2, empleado.getPassw());
             stmt.setString(3, empleado.getNombre());
@@ -77,7 +75,7 @@ public class EmpleadoRepository {
     }
 
     public void update(Empleado empleado) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement("UPDATE colaboradores.empleado SET passw = ?, nombre = ?, rol = ? WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("UPDATE colaboradores.empleado SET passw = ?, nombre = ?, rol = ? WHERE nickname = ?")) {
             stmt.setString(1, empleado.getPassw());
             stmt.setString(2, empleado.getNombre());
             stmt.setInt(3, empleado.getRol().getId());
@@ -87,7 +85,7 @@ public class EmpleadoRepository {
     }
 
     public void deleteById(String nickname) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM colaboradores.empleado WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("DELETE FROM colaboradores.empleado WHERE nickname = ?")) {
             stmt.setString(1, nickname);
             stmt.executeUpdate();
         }
