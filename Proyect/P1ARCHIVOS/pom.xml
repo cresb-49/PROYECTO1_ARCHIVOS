@@ -6,14 +6,15 @@
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
-            <groupId>com.cresb.jdynamictable</groupId>
-            <artifactId>JDynamicTable</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.5.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
         </dependency>
     </dependencies>
     <properties>

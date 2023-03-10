@@ -1,6 +1,7 @@
 package com.cresb.p1archivos.backend.database.repository;
 
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.models.Rol;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,14 @@ public class EmpleadoRepository extends RepositoryBase{
     }
     
     public Empleado findById(String nickname) throws SQLException{
-        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaborador.empleado AS e INNER JOIN colaborador.rol AS r ON e.rol = r.id WHERE nickname = ?")) {
             stmt.setString(1, nickname);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Empleado empleado = new Empleado();
                     empleado.setNickname(rs.getString("nickname"));
-                    empleado.setPassw(null);
                     empleado.setNombre(rs.getString("nombre"));
-                    empleado.setRol(rolRepository.findById(rs.getInt("rol")));
+                    empleado.setRol(new Rol(rs.getInt("rol"), "nombre"));
                     return empleado;
                 }
             }
@@ -31,16 +31,15 @@ public class EmpleadoRepository extends RepositoryBase{
     }
     
     public Empleado login(String nickname,String password) throws SQLException{
-        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaboradores.empleado WHERE nickname = ? AND passw = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("SELECT * FROM colaborador.empleado AS e INNER JOIN colaborador.rol AS r ON e.rol = r.id WHERE nickname = ? AND passw = ?")) {
             stmt.setString(1, nickname);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Empleado empleado = new Empleado();
                     empleado.setNickname(rs.getString("nickname"));
-                    empleado.setPassw(null);
                     empleado.setNombre(rs.getString("nombre"));
-                    empleado.setRol(rolRepository.findById(rs.getInt("rol")));
+                    empleado.setRol(new Rol(rs.getInt("rol"), "nombre"));
                     return empleado;
                 }
             }
@@ -51,13 +50,12 @@ public class EmpleadoRepository extends RepositoryBase{
     public List<Empleado> findAll() throws SQLException {
         List<Empleado> empleados = new ArrayList<>();
         try (Statement stmt = GetConnection().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM colaboradores.empleado")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM colaborador.empleado AS e INNER JOIN colaborador.rol AS r ON e.rol = r.id ORDER BY nickname ASC;")) {
             while (rs.next()) {
                 Empleado empleado = new Empleado();
                 empleado.setNickname(rs.getString("nickname"));
-                empleado.setPassw(rs.getString("passw"));
                 empleado.setNombre(rs.getString("nombre"));
-                empleado.setRol(rolRepository.findById(rs.getInt("rol")));
+                empleado.setRol(new Rol(rs.getInt("rol"), "nombre"));
                 empleados.add(empleado);
             }
         }
