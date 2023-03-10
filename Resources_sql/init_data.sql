@@ -35,7 +35,6 @@ INSERT INTO colaborador.empleado VALUES ('usuario14', '8ee736784ce419bd16554ed56
 INSERT INTO colaborador.empleado VALUES ('usuario15', '9141fea0574f83e190ab7479d516630d', 'Carlos González', 3);
 INSERT INTO colaborador.empleado VALUES ('usuario16', '2b40aaa979727c43411c305540bbed50', 'Sofía Hernández', 3);
 
-INSERT INTO colaborador.empleado VALUES ('usuario17', 'a63f9709abc75bf8bd8f6e1ba9992573', 'Lucas Sánchez', 4);
 
 -- Productos de electrodomésticos
 

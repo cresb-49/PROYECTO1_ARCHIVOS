@@ -89,3 +89,6 @@ INSERT INTO infraestructura.sucursal VALUES('S0003','Sucursal Sur');
 
 --Ingreso del cliente consumidor final
 INSERT INTO consumidor.cliente VALUES('C/F','Consumidor Final');
+
+--Administrador por defecto
+INSERT INTO colaborador.empleado VALUES ('usuario17', 'a63f9709abc75bf8bd8f6e1ba9992573', 'Lucas Sánchez', 4);
