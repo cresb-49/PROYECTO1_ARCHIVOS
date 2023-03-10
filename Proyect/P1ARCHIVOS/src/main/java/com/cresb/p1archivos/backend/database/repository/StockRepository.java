@@ -59,12 +59,52 @@ public class StockRepository extends RepositoryBase {
         }
     }
     
-    public List<Stock> findAllBySucursalAndcodigoProducto(String sucursal,String code) throws SQLException {
+    public List<Stock> findAllBySucursalAndCodigoProducto(String sucursal,String code) throws SQLException {
         String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and p.id = ?";
         List<Stock> stocks = new ArrayList<>();
         try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
             statement.setString(1, sucursal);
             statement.setString(2, code);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String nombre = rs.getString("nombre");
+                String marca = rs.getString("marca");
+                double valor = rs.getDouble("valor");
+                String des = rs.getString("descripcion");
+                int cantidad = rs.getInt("cantidad");
+                stocks.add(new Stock(new Producto(id, nombre, marca, valor, des),sucursal,cantidad));
+            }
+            return stocks;
+        }
+    }
+    
+    public List<Stock> findAllBySucursalAndMarca(String sucursal,String marca_s) throws SQLException {
+        String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and p.marca LIKE ?";
+        List<Stock> stocks = new ArrayList<>();
+        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+            statement.setString(1, sucursal);
+            statement.setString(2, "%"+marca_s+"%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String nombre = rs.getString("nombre");
+                String marca = rs.getString("marca");
+                double valor = rs.getDouble("valor");
+                String des = rs.getString("descripcion");
+                int cantidad = rs.getInt("cantidad");
+                stocks.add(new Stock(new Producto(id, nombre, marca, valor, des),sucursal,cantidad));
+            }
+            return stocks;
+        }
+    }
+    
+    public List<Stock> findAllBySucursalAndExistencia (String sucursal,int existencia) throws SQLException {
+        String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and s.cantidad = ?";
+        List<Stock> stocks = new ArrayList<>();
+        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+            statement.setString(1, sucursal);
+            statement.setInt(2, existencia);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 String id = rs.getString("id");
