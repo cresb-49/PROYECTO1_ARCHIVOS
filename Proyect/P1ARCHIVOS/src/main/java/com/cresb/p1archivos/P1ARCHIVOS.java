@@ -15,6 +15,12 @@ import com.cresb.p1archivos.frontend.pantallas.ventas.FrameVentas;
 public class P1ARCHIVOS {
 
     public static void main(String[] args) {
+        
+        /*for (int i = 1; i <= 17; i++) {
+            String val = "password"+i;
+            System.out.println(val+" -> "+Encriptar.encriptar(val));
+        }*/
+        
         LoginFrame loginFrame = new LoginFrame(null, true);
         loginFrame.setVisible(true);
         //Recuperacion y limpieza del empleado recuperado
@@ -43,7 +49,7 @@ public class P1ARCHIVOS {
                 frameAdmin = null;
                 break;
             default:
-                throw new AssertionError();
+                System.out.println("Salida del programa :)");
         }
     }
 }

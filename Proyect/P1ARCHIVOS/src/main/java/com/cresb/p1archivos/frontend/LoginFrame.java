@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package com.cresb.p1archivos.frontend;
 
 import com.cresb.p1archivos.backend.database.repository.EmpleadoRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.security.Encriptar;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -21,7 +18,9 @@ public class LoginFrame extends javax.swing.JDialog {
     public LoginFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         initComponents();
+        this.empleadoRepository = new EmpleadoRepository();
     }
 
     /**
@@ -102,15 +101,15 @@ public class LoginFrame extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String usuario = this.fieldUsuario.getText();
-        String password = "";
+        String password = new String(this.fieldPassword.getPassword());
         try {
-            empleado = this.empleadoRepository.login(usuario, password);
+            empleado = this.empleadoRepository.login(usuario,Encriptar.encriptar(password));
             if(empleado!= null){
                 System.out.println("Login: Credenciales correctas");
                 //Cerramos el JDialog
                 this.dispose();
             }else{
-                JOptionPane.showMessageDialog(this, "Las credenciasles de entrada son incorrectas");
+                JOptionPane.showMessageDialog(this, "Las credenciasles de entrada son incorrectas","Error de Login",JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             System.out.println("Error DB: "+ ex.getMessage());

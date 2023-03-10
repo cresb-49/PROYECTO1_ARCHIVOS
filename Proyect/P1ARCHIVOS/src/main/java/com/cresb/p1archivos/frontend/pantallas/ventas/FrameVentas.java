@@ -1,9 +1,10 @@
 package com.cresb.p1archivos.frontend.pantallas.ventas;
 
-import com.cresb.jdynamictable.JDynamicTable;
-import com.cresb.jdynamictable.columns.NumberColumnTable;
-import com.cresb.jdynamictable.columns.TextColumnTable;
+
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
+import com.cresb.p1archivos.backend.jDynamicTable.JDynamicTable;
+import com.cresb.p1archivos.backend.jDynamicTable.columns.NumberColumnTable;
+import com.cresb.p1archivos.backend.jDynamicTable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.models.Cliente;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.tableModels.TableDescripcion;

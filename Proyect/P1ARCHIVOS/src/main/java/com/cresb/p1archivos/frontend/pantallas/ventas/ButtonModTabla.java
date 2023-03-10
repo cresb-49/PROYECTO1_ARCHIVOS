@@ -1,6 +1,7 @@
 package com.cresb.p1archivos.frontend.pantallas.ventas;
 
-import com.cresb.jdynamictable.columns.ButtonColumnTable;
+
+import com.cresb.p1archivos.backend.jDynamicTable.columns.ButtonColumnTable;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 
