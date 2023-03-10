@@ -7,6 +7,7 @@ import com.cresb.p1archivos.backend.jDynamicTable.columns.NumberColumnTable;
 import com.cresb.p1archivos.backend.jDynamicTable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.models.Cliente;
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.backend.models.tableModels.TableDescripcion;
 import com.cresb.p1archivos.frontend.pantallas.RegistrarCliente;
 import java.awt.HeadlessException;
@@ -22,15 +23,16 @@ public class FrameVentas extends javax.swing.JFrame {
     
     //Variable para el momento de la venta
     private Cliente cliente = null;
-    
+    private Sucursal sucursal = null;
     
     /**
      * Creates new form FrameVentas
      * @param empleado
      */
-    public FrameVentas(Empleado empleado) {
+    public FrameVentas(Empleado empleado, Sucursal sucursal) {
         initComponents();
         this.empleado = empleado;
+        this.sucursal = sucursal;
         this.dt = new JDynamicTable<>(this.jTable1,this);
         this.inicializarTabla();
     }

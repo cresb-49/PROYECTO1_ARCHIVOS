@@ -63,7 +63,7 @@ public class EmpleadoRepository extends RepositoryBase{
     }
 
     public void save(Empleado empleado) throws SQLException {
-        try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO colaboradores.empleado VALUES (?, ?, ?, ?)")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO colaborador.empleado VALUES (?, ?, ?, ?)")) {
             stmt.setString(1, empleado.getNickname());
             stmt.setString(2, empleado.getPassw());
             stmt.setString(3, empleado.getNombre());
@@ -73,7 +73,7 @@ public class EmpleadoRepository extends RepositoryBase{
     }
 
     public void update(Empleado empleado) throws SQLException {
-        try (PreparedStatement stmt = GetConnection().prepareStatement("UPDATE colaboradores.empleado SET passw = ?, nombre = ?, rol = ? WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("UPDATE colaborador.empleado SET passw = ?, nombre = ?, rol = ? WHERE nickname = ?")) {
             stmt.setString(1, empleado.getPassw());
             stmt.setString(2, empleado.getNombre());
             stmt.setInt(3, empleado.getRol().getId());
@@ -83,7 +83,7 @@ public class EmpleadoRepository extends RepositoryBase{
     }
 
     public void deleteById(String nickname) throws SQLException {
-        try (PreparedStatement stmt = GetConnection().prepareStatement("DELETE FROM colaboradores.empleado WHERE nickname = ?")) {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("DELETE FROM colaborador.empleado WHERE nickname = ?")) {
             stmt.setString(1, nickname);
             stmt.executeUpdate();
         }

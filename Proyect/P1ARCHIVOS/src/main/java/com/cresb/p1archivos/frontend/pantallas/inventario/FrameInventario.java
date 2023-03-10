@@ -1,6 +1,7 @@
 package com.cresb.p1archivos.frontend.pantallas.inventario;
 
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.models.Sucursal;
 
 /**
  *
@@ -8,15 +9,17 @@ import com.cresb.p1archivos.backend.models.Empleado;
  */
 public class FrameInventario extends javax.swing.JFrame {
     
-    private Empleado empleado;
+    private Empleado empleado = null;
+    private Sucursal sucursal = null;
     
     /**
      * Creates new form FrameInventario
      * @param empleado
      */
-    public FrameInventario(Empleado empleado) {
+    public FrameInventario(Empleado empleado,Sucursal sucursal) {
         initComponents();
         this.empleado = empleado;
+        this.sucursal = sucursal;
     }
 
     /**

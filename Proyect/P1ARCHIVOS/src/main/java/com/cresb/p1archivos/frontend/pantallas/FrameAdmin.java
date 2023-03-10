@@ -1,6 +1,13 @@
 package com.cresb.p1archivos.frontend.pantallas;
 
+import com.cresb.p1archivos.backend.database.repository.EmpleadoRepository;
+import com.cresb.p1archivos.backend.database.repository.PlanillaRepository;
+import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
+import com.cresb.p1archivos.backend.models.Rol;
+import com.cresb.p1archivos.backend.models.Sucursal;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -9,6 +16,12 @@ import com.cresb.p1archivos.backend.models.Empleado;
 public class FrameAdmin extends javax.swing.JFrame {
     
     private Empleado empleado;
+    private int selectRol = Rol.VENDEDOR;
+    
+    private final SucursalRepository sucursalRepository = new SucursalRepository();
+    private final PlanillaRepository planillaRepository = new PlanillaRepository();
+    private final EmpleadoRepository empleadoRepository = new EmpleadoRepository();
+    
     /**
      * Creates new form FrameAdmin
      * @param empleado
@@ -16,6 +29,9 @@ public class FrameAdmin extends javax.swing.JFrame {
     public FrameAdmin(Empleado empleado) {
         initComponents();
         this.empleado = empleado;
+        this.cargarComboBox();
+        this.jMenu2.setText("Usuario: "+empleado.getNickname());
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -33,7 +49,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         FieldNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        fieldNickname = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         RadioAdmin = new javax.swing.JRadioButton();
         RadioVendedor = new javax.swing.JRadioButton();
@@ -46,6 +62,8 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel18 = new javax.swing.JLabel();
+        jPasswordField2 = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -72,6 +90,7 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrador");
+        setResizable(false);
 
         jLabel1.setText("Nombre:");
 
@@ -81,25 +100,38 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         buttonGroup1.add(RadioAdmin);
         RadioAdmin.setText("Administrador");
-        RadioAdmin.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                RadioAdminPropertyChange(evt);
+        RadioAdmin.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                RadioAdminStateChanged(evt);
             }
         });
 
         buttonGroup1.add(RadioVendedor);
         RadioVendedor.setSelected(true);
         RadioVendedor.setText("Vendedor");
+        RadioVendedor.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                RadioVendedorStateChanged(evt);
+            }
+        });
 
         buttonGroup1.add(RadioInventario);
         RadioInventario.setText("Inventario");
+        RadioInventario.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                RadioInventarioStateChanged(evt);
+            }
+        });
 
         buttonGroup1.add(RadioBodega);
         RadioBodega.setText("Bodega");
+        RadioBodega.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                RadioBodegaStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Sucursal:");
-
-        ComboSucursales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel15.setText("Datos del Empleado:");
 
@@ -108,43 +140,51 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel17.setText("Sucursal del Empleado:");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText("Confirmar:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel18))
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(FieldNombre)
-                            .addComponent(jTextField2)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPasswordField1))
+                            .addComponent(jPasswordField2)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fieldNickname, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(FieldNombre, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
                             .addComponent(jLabel16)
+                            .addComponent(jLabel17)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(RadioAdmin)
-                                .addGap(18, 18, 18)
                                 .addComponent(RadioVendedor)
                                 .addGap(18, 18, 18)
                                 .addComponent(RadioInventario)
                                 .addGap(18, 18, 18)
-                                .addComponent(RadioBodega))
-                            .addComponent(jLabel17))
-                        .addGap(0, 206, Short.MAX_VALUE))
+                                .addComponent(RadioBodega)
+                                .addGap(18, 18, 18)
+                                .addComponent(RadioAdmin)))
+                        .addGap(0, 200, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ComboSucursales, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -160,28 +200,32 @@ public class FrameAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RadioAdmin)
                     .addComponent(RadioVendedor)
                     .addComponent(RadioInventario)
-                    .addComponent(RadioBodega))
+                    .addComponent(RadioBodega)
+                    .addComponent(RadioAdmin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel17)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(ComboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro Empleado", jPanel1);
@@ -317,7 +361,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -331,11 +375,38 @@ public class FrameAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RadioAdminPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_RadioAdminPropertyChange
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.verificarEmpleado();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void RadioBodegaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RadioBodegaStateChanged
+        if(this.RadioBodega.isSelected()){
+            this.ComboSucursales.setEnabled(false);
+            this.selectRol = Rol.BODEGA;
+        }
+    }//GEN-LAST:event_RadioBodegaStateChanged
+
+    private void RadioInventarioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RadioInventarioStateChanged
+        if(this.RadioInventario.isSelected()){
+            this.ComboSucursales.setEnabled(true);
+            this.selectRol = Rol.INVENTARIO;
+        }
+    }//GEN-LAST:event_RadioInventarioStateChanged
+
+    private void RadioVendedorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RadioVendedorStateChanged
+        if(this.RadioVendedor.isSelected()){
+            this.ComboSucursales.setEnabled(true);
+            this.selectRol = Rol.VENDEDOR;
+        }
+    }//GEN-LAST:event_RadioVendedorStateChanged
+
+    private void RadioAdminStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_RadioAdminStateChanged
+        // TODO add your handling code here:
         if(this.RadioAdmin.isSelected()){
             this.ComboSucursales.setEnabled(false);
+            this.selectRol = Rol.ADMIN;
         }
-    }//GEN-LAST:event_RadioAdminPropertyChange
+    }//GEN-LAST:event_RadioAdminStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboSucursales;
@@ -345,6 +416,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JRadioButton RadioInventario;
     private javax.swing.JRadioButton RadioVendedor;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField fieldNickname;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -365,6 +437,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -378,8 +451,50 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarComboBox() {
+        try {
+            var result = this.sucursalRepository.getAll();
+            for (Sucursal sucursal : result) {
+                this.ComboSucursales.addItem(sucursal.getNombre());
+            }
+        } catch (SQLException ex) {
+            System.err.println("No se pueden recuperar las sucrusales");
+        }
+    }
+
+    private void verificarEmpleado() {
+        String pass1,pass2,nombre,nickname,sucursalNombre;
+        nombre = this.FieldNombre.getText();
+        nickname = this.fieldNickname.getText();
+        pass1 = new String(this.jPasswordField1.getPassword());
+        pass2 = new String(this.jPasswordField2.getPassword());
+        sucursalNombre = this.ComboSucursales.getSelectedItem().toString();
+        try {
+            var result = this.empleadoRepository.findById(nickname);
+            if(result == null){
+                //Se verifica la sucursal de trabajo
+                var sucursal = this.sucursalRepository.findByNombre(sucursalNombre);
+                if(sucursal == null)
+                    throw new NullPointerException();
+                //Se descarta el nombre del rol ya que solo se utliza el id para registar al empleado
+                this.empleadoRepository.save(new Empleado(nickname, pass2, nombre, new Rol(this.selectRol, null)));
+                //Si el empleado es de rol vendedor o invetario se le asigna la sucursal de trabajo de lo contrario no
+                if(selectRol == Rol.VENDEDOR || selectRol == Rol.INVENTARIO){
+                    this.planillaRepository.insertarPlanilla(empleado, sucursal);
+                }
+                JOptionPane.showMessageDialog(this, "El usuario \""+nickname+"\" se registro con exito en el sistema","Registro completado",JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "El usuario \""+nickname+"\" ya existe en el sistema","Informacion Duplicada",JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "No se puede conectar a la base de datos","Error de conexion",JOptionPane.ERROR_MESSAGE);
+        }catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(this, "No se recuperar la sucursal","Error de conexion",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
 }

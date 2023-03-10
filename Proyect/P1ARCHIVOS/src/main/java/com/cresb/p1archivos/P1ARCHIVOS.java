@@ -1,12 +1,17 @@
 package com.cresb.p1archivos;
 
+import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Rol;
+import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.frontend.LoginFrame;
 import com.cresb.p1archivos.frontend.pantallas.FrameAdmin;
 import com.cresb.p1archivos.frontend.pantallas.bodega.FrameBodega;
 import com.cresb.p1archivos.frontend.pantallas.inventario.FrameInventario;
 import com.cresb.p1archivos.frontend.pantallas.ventas.FrameVentas;
+
+import javax.swing.*;
+import java.sql.SQLException;
 
 /**
  *
@@ -20,7 +25,7 @@ public class P1ARCHIVOS {
             String val = "password"+i;
             System.out.println(val+" -> "+Encriptar.encriptar(val));
         }*/
-        
+        SucursalRepository sucursalRepository = new SucursalRepository();
         LoginFrame loginFrame = new LoginFrame(null, true);
         loginFrame.setVisible(true);
         //Recuperacion y limpieza del empleado recuperado
@@ -29,14 +34,38 @@ public class P1ARCHIVOS {
         //Inicio segun el tipo de rol
         switch (empleado.getRol().getId()) {
             case Rol.VENDEDOR:
-                FrameVentas frameVentas = new FrameVentas(empleado);
-                frameVentas.setVisible(true);
-                frameVentas = null;
+                //Recuperar la sucursal a la cual eesta enlazado el empleado
+                try {
+                    var sucursal = sucursalRepository.findByIdEmpleado(empleado.getNickname());
+
+                    if(sucursal == null)
+                        throw new NullPointerException();
+
+                    FrameVentas frameVentas = new FrameVentas(empleado,sucursal);
+                    frameVentas.setVisible(true);
+                    frameVentas = null;
+                }catch (SQLException ex){
+                    JOptionPane.showMessageDialog(null,"Error con la base de datos", "Error",JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null,"El empleado no esta enlazado con una sucursal", "Error",JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             case Rol.INVENTARIO:
-                FrameInventario frameInventario = new FrameInventario(empleado);
-                frameInventario.setVisible(true);
-                frameInventario = null;
+                //Recuperar la sucursal a la cual eesta enlazado el empleado
+                try {
+                    var sucursal = sucursalRepository.findByIdEmpleado(empleado.getNickname());
+
+                    if(sucursal == null)
+                        throw new NullPointerException();
+
+                    FrameInventario frameInventario = new FrameInventario(empleado,sucursal);
+                    frameInventario.setVisible(true);
+                    frameInventario = null;
+                }catch (SQLException ex){
+                    JOptionPane.showMessageDialog(null,"Error con la base de datos", "Error",JOptionPane.ERROR_MESSAGE);
+                }catch (NullPointerException ex){
+                    JOptionPane.showMessageDialog(null,"El empleado no esta enlazado con una sucursal", "Error",JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             case Rol.BODEGA:
                 FrameBodega frameBodega = new FrameBodega(empleado);
