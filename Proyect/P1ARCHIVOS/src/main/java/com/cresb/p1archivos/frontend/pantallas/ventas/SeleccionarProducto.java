@@ -143,7 +143,7 @@ public class SeleccionarProducto extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             if(this.jRadioButton1.isSelected()){
-                this.agregarDatos(new ArrayList<>(this.stockRepository.findAllBySucursalAndcodigoProducto(sucursal.getId(), this.jTextField1.getText())));
+                this.agregarDatos(new ArrayList<>(this.stockRepository.findAllBySucursalAndCodigoProducto(sucursal.getId(), this.jTextField1.getText())));
             }else{
                 this.agregarDatos(new ArrayList<>(this.stockRepository.findAllBySucursalAndNomnbreProducto(sucursal.getId(), this.jTextField1.getText())));
             }

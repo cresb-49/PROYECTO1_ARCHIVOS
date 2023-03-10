@@ -7,13 +7,9 @@ import com.cresb.p1archivos.backend.jDynamicTable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Stock;
 import com.cresb.p1archivos.backend.models.Sucursal;
-import com.cresb.p1archivos.frontend.pantallas.ventas.ButtonDelTabla;
-import com.cresb.p1archivos.frontend.pantallas.ventas.ButtonModTabla;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -181,16 +177,16 @@ public class FrameInventario extends javax.swing.JFrame {
             try {
                 if(jRadioButton3.isSelected()){
                     //por nombre
-                    this.setInformaciondt(this.stockRepository.findAllBySucursalAndNomnbreProducto(sucursal.getId(),parametro));
+                    this.setInformaciondt(this.stockRepository.findStockBySucursalAndName(sucursal.getId(),parametro));
                 }else if(jRadioButton1.isSelected()){
                     //por marca
-                    this.setInformaciondt(this.stockRepository.findAllBySucursalAndMarca(sucursal.getId(),parametro));
+                    this.setInformaciondt(this.stockRepository.findStockBySucursalAndMarca(sucursal.getId(),parametro));
                 }else if(jRadioButton2.isSelected()){
                     //por codigo
-                    this.setInformaciondt(this.stockRepository.findAllBySucursalAndCodigoProducto(sucursal.getId(),parametro));
+                    this.setInformaciondt(this.stockRepository.findStockBySucursalAndCode(sucursal.getId(),parametro));
                 }else if(jRadioButton4.isSelected()){
                     //por existencia
-                    this.setInformaciondt(this.stockRepository.findAllBySucursalAndExistencia(sucursal.getId(),Integer.parseInt(parametro)));
+                    this.setInformaciondt(this.stockRepository.findStockBySucursalAndExistencia(sucursal.getId(),Integer.parseInt(parametro)));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -236,7 +232,7 @@ public class FrameInventario extends javax.swing.JFrame {
 
     private void aplicarInformacion() {
         try {
-            this.dt.setData(new ArrayList<>(this.stockRepository.findAllBySucursal(sucursal.getId())));
+            this.dt.setData(new ArrayList<>(this.stockRepository.findStockBySucursal(sucursal.getId())));
             this.dt.apply();
         } catch (SQLException ex) {
             ex.printStackTrace();
