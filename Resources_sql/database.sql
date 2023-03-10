@@ -13,7 +13,7 @@ CREATE TABLE colaborador.rol(
 );
 CREATE TABLE colaborador.empleado(
     nickname VARCHAR(20) NOT NULL,
-    passw VARCHAR(20) NOT NULL,
+    passw VARCHAR(200) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     rol INT NOT NULL,
     PRIMARY KEY(nickname),

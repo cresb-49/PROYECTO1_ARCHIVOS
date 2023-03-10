@@ -1,40 +1,41 @@
 --Inserscion de empleados
-INSERT INTO colaborador.empleado VALUES ('usuario1', 'password1', 'Juan Pérez', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario2', 'password2', 'María García', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario3', 'password3', 'Pedro Hernández', 1);
+--Password de usuariox es passwordx
+INSERT INTO colaborador.empleado VALUES ('usuario1', '7c6a180b36896a0a8c02787eeafb0e4c', 'Juan Pérez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario2', '6cb75f652a9b52798eb6cf2201057c73', 'María García', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario3', '819b0643d6b89dc9b579fdfc9094f28e', 'Pedro Hernández', 1);
 INSERT INTO colaborador.planilla VALUES('usuario1','S0001');
 INSERT INTO colaborador.planilla VALUES('usuario2','S0001');
 INSERT INTO colaborador.planilla VALUES('usuario3','S0001');
 
-INSERT INTO colaborador.empleado VALUES ('usuario4', 'password4', 'Ana López', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario5', 'password5', 'Jorge Fernández', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario6', 'password6', 'Carla Gómez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario4', '34cc93ece0ba9e3f6f235d4af979b16c', 'Ana López', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario5', 'db0edd04aaac4506f7edab03ac855d56', 'Jorge Fernández', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario6', '218dd27aebeccecae69ad8408d9a36bf', 'Carla Gómez', 1);
 INSERT INTO colaborador.planilla VALUES('usuario4','S0002');
 INSERT INTO colaborador.planilla VALUES('usuario5','S0002');
 INSERT INTO colaborador.planilla VALUES('usuario6','S0002');
 
 
-INSERT INTO colaborador.empleado VALUES ('usuario7', 'password7', 'Ricardo Martínez', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario8', 'password8', 'Sofía Rodríguez', 1);
-INSERT INTO colaborador.empleado VALUES ('usuario9', 'password9', 'Alejandro Pérez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario7', '00cdb7bb942cf6b290ceb97d6aca64a3', 'Ricardo Martínez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario8', 'b25ef06be3b6948c0bc431da46c2c738', 'Sofía Rodríguez', 1);
+INSERT INTO colaborador.empleado VALUES ('usuario9', '5d69dd95ac183c9643780ed7027d128a', 'Alejandro Pérez', 1);
 INSERT INTO colaborador.planilla VALUES('usuario7','S0003');
 INSERT INTO colaborador.planilla VALUES('usuario8','S0003');
 INSERT INTO colaborador.planilla VALUES('usuario9','S0003');
 
-INSERT INTO colaborador.empleado VALUES ('usuario10', 'password10', 'Juan ALberto', 2);
-INSERT INTO colaborador.empleado VALUES ('usuario11', 'password11', 'Lucia García', 2);
-INSERT INTO colaborador.empleado VALUES ('usuario12', 'password12', 'Ana López', 2);
+INSERT INTO colaborador.empleado VALUES ('usuario10', '87e897e3b54a405da144968b2ca19b45', 'Juan ALberto', 2);
+INSERT INTO colaborador.empleado VALUES ('usuario11', '1e5c2776cf544e213c3d279c40719643', 'Lucia García', 2);
+INSERT INTO colaborador.empleado VALUES ('usuario12', 'c24a542f884e144451f9063b79e7994e', 'Ana López', 2);
 INSERT INTO colaborador.planilla VALUES('usuario10','S0001');
 INSERT INTO colaborador.planilla VALUES('usuario11','S0002');
 INSERT INTO colaborador.planilla VALUES('usuario12','S0003');
 
 
-INSERT INTO colaborador.empleado VALUES ('usuario13', 'password13', 'Pedro Martínez', 3);
-INSERT INTO colaborador.empleado VALUES ('usuario14', 'password14', 'Laura Ruiz', 3);
-INSERT INTO colaborador.empleado VALUES ('usuario15', 'password15', 'Carlos González', 3);
-INSERT INTO colaborador.empleado VALUES ('usuario16', 'password16', 'Sofía Hernández', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario13', 'ee684912c7e588d03ccb40f17ed080c9', 'Pedro Martínez', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario14', '8ee736784ce419bd16554ed5677ff35b', 'Laura Ruiz', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario15', '9141fea0574f83e190ab7479d516630d', 'Carlos González', 3);
+INSERT INTO colaborador.empleado VALUES ('usuario16', '2b40aaa979727c43411c305540bbed50', 'Sofía Hernández', 3);
 
-INSERT INTO colaborador.empleado VALUES ('usuario17', 'password17', 'Lucas Sánchez', 4);
+INSERT INTO colaborador.empleado VALUES ('usuario17', 'a63f9709abc75bf8bd8f6e1ba9992573', 'Lucas Sánchez', 4);
 
 -- Productos de electrodomésticos
 
@@ -89,7 +90,7 @@ VALUES
 ('P0047', 'Ventilador de torre', 'Dyson', 399.99, 'Oscilación de 350 grados y control remoto'),
 ('P0048', 'Calefactor eléctrico', 'DeLonghi', 119.99, 'Termostato ajustable y función de ventilación'),
 ('P0049', 'Tostadora automática', 'Breville', 99.99, 'Ranuras extra anchas y 6 niveles de tostado'),
-('P0050', 'Exprimidor de cítricos', 'Taurus', 39.99, 'Cono doble para diferentes tamaños de frutas')
+('P0050', 'Exprimidor de cítricos', 'Taurus', 39.99, 'Cono doble para diferentes tamaños de frutas'),
 ('P0051', 'Cafetera espresso', 'DeLonghi', 399.99, 'Caldera de acero inoxidable y espumador de leche'),
 ('P0052', 'Licuadora', 'Oster', 139.99, 'Jarra de vidrio y 2 velocidades'),
 ('P0053', 'Horno de convección', 'Black and Decker', 179.99, 'Capacidad de 22 litros y temperatura ajustable'),
