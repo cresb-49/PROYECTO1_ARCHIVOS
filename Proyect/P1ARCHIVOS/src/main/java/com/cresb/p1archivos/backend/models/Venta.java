@@ -1,6 +1,5 @@
 package com.cresb.p1archivos.backend.models;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 

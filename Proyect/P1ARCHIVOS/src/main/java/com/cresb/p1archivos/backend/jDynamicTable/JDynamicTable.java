@@ -587,12 +587,33 @@ public class JDynamicTable<T> {
      * @throws IllegalAccessException
      */
     private Object getDataObject(T data,String alias) throws NoSuchFieldException, IllegalAccessException {
+        //TODO: Implementacion para ingresar mas profundo en la informacion
+        //Obtenemos el split de datos
+        String[] partes = alias.split("\\.");
+        if(partes.length == 1){
+            Field field = data.getClass().getDeclaredField(alias);
+            if (!field.canAccess(data)) {
+                field.setAccessible(true);
+            }
+            Object result = field.get(data);
+            field = null;
+            return result;
+        }else{
+            return this.getInnerData(data, partes[0], partes, 0);
+        }
+    }
+    
+    private Object getInnerData(Object data,String alias,String[] partes,int pos) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         Field field = data.getClass().getDeclaredField(alias);
         if (!field.canAccess(data)) {
             field.setAccessible(true);
         }
         Object result = field.get(data);
         field = null;
-        return result;
+        if((partes.length - 1 )== pos){
+            return result;
+        }else{
+            return this.getInnerData(result, partes[pos+1], partes, pos+1);
+        }
     }
 }

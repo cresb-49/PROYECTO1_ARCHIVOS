@@ -3,10 +3,12 @@ package com.cresb.p1archivos.backend.models;
 public class Descripcion {
 
     private Producto producto;
-    private String venta;
+    private Venta venta;
     private int cantidad;
+    //Variable de control
+    private Stock stock;
 
-    public Descripcion(Producto producto, String venta, int cantidad) {
+    public Descripcion(Producto producto, Venta venta, int cantidad) {
         this.producto = producto;
         this.venta = venta;
         this.cantidad = cantidad;
@@ -20,11 +22,11 @@ public class Descripcion {
         this.producto = producto;
     }
 
-    public String getVenta() {
+    public Venta getVenta() {
         return venta;
     }
 
-    public void setVenta(String venta) {
+    public void setVenta(Venta venta) {
         this.venta = venta;
     }
 
@@ -36,9 +38,17 @@ public class Descripcion {
         this.cantidad = cantidad;
     }
 
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
-        return "Descripcion [producto=" + producto + ", venta=" + venta + ", cantidad=" + cantidad + "]";
+        return "Descripcion [producto=" + producto.getId() + ", venta=" + venta.getId() + ", cantidad=" + cantidad + "]";
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Rol;
 import com.cresb.p1archivos.backend.models.Sucursal;
+import com.cresb.p1archivos.backend.security.Encriptar;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -481,7 +482,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 if(sucursal == null)
                     throw new NullPointerException();
                 //Se descarta el nombre del rol ya que solo se utliza el id para registar al empleado
-                this.empleadoRepository.save(new Empleado(nickname, pass2, nombre, new Rol(this.selectRol, null)));
+                this.empleadoRepository.save(new Empleado(nickname, Encriptar.encriptar(pass2), nombre, new Rol(this.selectRol, null)));
                 //Si el empleado es de rol vendedor o invetario se le asigna la sucursal de trabajo de lo contrario no
                 if(selectRol == Rol.VENDEDOR || selectRol == Rol.INVENTARIO){
                     this.planillaRepository.insertarPlanilla(empleado, sucursal);

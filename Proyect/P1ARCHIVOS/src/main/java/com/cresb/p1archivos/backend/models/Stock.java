@@ -1,23 +1,25 @@
 package com.cresb.p1archivos.backend.models;
 
+import java.util.Objects;
+
 public class Stock {
 
-    private String productoId;
+    private Producto producto;
     private String sucursalId;
     private int cantidad;
 
-    public Stock(String productoId, String sucursalId, int cantidad) {
-        this.productoId = productoId;
+    public Stock(Producto producto, String sucursalId, int cantidad) {
+        this.producto = producto;
         this.sucursalId = sucursalId;
         this.cantidad = cantidad;
     }
 
-    public String getProductoId() {
-        return productoId;
+    public Producto getProductoId() {
+        return producto;
     }
 
-    public void setProductoId(String productoId) {
-        this.productoId = productoId;
+    public void setProductoId(Producto producto) {
+        this.producto = producto;
     }
 
     public String getSucursalId() {
@@ -38,41 +40,32 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock [productoId=" + productoId + ", sucursalId=" + sucursalId + ", cantidad=" + cantidad + "]";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Stock other = (Stock) obj;
-        if (cantidad != other.cantidad)
-            return false;
-        if (productoId == null) {
-            if (other.productoId != null)
-                return false;
-        } else if (!productoId.equals(other.productoId))
-            return false;
-        if (sucursalId == null) {
-            if (other.sucursalId != null)
-                return false;
-        } else if (!sucursalId.equals(other.sucursalId))
-            return false;
-        return true;
+        return "Stock [producto=" + producto.getId() + ", sucursalId=" + sucursalId + ", cantidad=" + cantidad + "]";
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + cantidad;
-        result = prime * result + ((productoId == null) ? 0 : productoId.hashCode());
-        result = prime * result + ((sucursalId == null) ? 0 : sucursalId.hashCode());
-        return result;
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.producto);
+        hash = 47 * hash + Objects.hashCode(this.sucursalId);
+        return hash;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Stock other = (Stock) obj;
+        if (!Objects.equals(this.sucursalId, other.sucursalId)) {
+            return false;
+        }
+        return Objects.equals(this.producto, other.producto);
+    }
 }

@@ -23,7 +23,7 @@ public class DescripcionRepository extends RepositoryBase{
                     Producto producto = this.productoRepository.buscarProductoPorId(resultSet.getString("producto"));
                     String ventaId = resultSet.getString("venta");
                     int cantidad = resultSet.getInt("cantidad");
-                    Descripcion descripcion = new Descripcion(producto,ventaId,cantidad);
+                    Descripcion descripcion = new Descripcion(producto,null,cantidad);
                     result.add(descripcion);
                 }
             }
@@ -40,7 +40,7 @@ public class DescripcionRepository extends RepositoryBase{
                 while (resultSet.next()) {
                     Producto producto = this.productoRepository.buscarProductoPorId(resultSet.getString("producto"));
                     int cantidad = resultSet.getInt("cantidad");
-                    Descripcion descripcion = new Descripcion(producto,venta,cantidad);
+                    Descripcion descripcion = new Descripcion(producto,null,cantidad);
                     result.add(descripcion);
                 }
             }
@@ -51,7 +51,7 @@ public class DescripcionRepository extends RepositoryBase{
     public void save(Descripcion descripcion) throws SQLException {
         try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO comercio.descripcion (producto, venta, cantidad) VALUES (?, ?, ?)")) {
             stmt.setString(1, descripcion.getProducto().getId());
-            stmt.setString(2, descripcion.getVenta());
+            stmt.setString(2, descripcion.getVenta().getId());
             stmt.setInt(3, descripcion.getCantidad());
             stmt.executeUpdate();
         }

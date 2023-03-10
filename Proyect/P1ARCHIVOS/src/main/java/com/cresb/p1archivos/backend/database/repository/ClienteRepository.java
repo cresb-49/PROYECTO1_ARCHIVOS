@@ -11,7 +11,7 @@ public class ClienteRepository extends RepositoryBase{
     }
 
     public void save(Cliente cliente) throws SQLException {
-        String sql = "INSERT INTO consumidores.cliente(nit, nombre) VALUES (?, ?)";
+        String sql = "INSERT INTO consumidor.cliente(nit, nombre) VALUES (?, ?)";
         
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
 
@@ -22,7 +22,7 @@ public class ClienteRepository extends RepositoryBase{
     }
 
     public Cliente findById(String nit) throws SQLException {
-        String sql = "SELECT nit, nombre FROM consumidores.cliente WHERE nit = ?";
+        String sql = "SELECT nit, nombre FROM consumidor.cliente WHERE nit = ?";
 
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
             pstmt.setString(1, nit);
@@ -38,7 +38,7 @@ public class ClienteRepository extends RepositoryBase{
     }
 
     public List<Cliente> findAll() throws SQLException {
-        String sql = "SELECT nit, nombre FROM consumidores.cliente";
+        String sql = "SELECT nit, nombre FROM consumidor.cliente";
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -53,7 +53,7 @@ public class ClienteRepository extends RepositoryBase{
     }
 
     public void update(Cliente cliente) throws SQLException {
-        String sql = "UPDATE consumidores.cliente SET nombre = ? WHERE nit = ?";
+        String sql = "UPDATE consumidor.cliente SET nombre = ? WHERE nit = ?";
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNombre());
@@ -63,7 +63,7 @@ public class ClienteRepository extends RepositoryBase{
     }
 
     public void delete(String nit) throws SQLException {
-        String sql = "DELETE FROM consumidores.cliente WHERE nit = ?";
+        String sql = "DELETE FROM consumidor.cliente WHERE nit = ?";
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
             pstmt.setString(1, nit);
             pstmt.executeUpdate();

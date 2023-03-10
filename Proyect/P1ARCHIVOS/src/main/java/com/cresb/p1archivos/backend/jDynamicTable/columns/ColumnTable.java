@@ -22,7 +22,7 @@ public class ColumnTable {
      * Main constructor to describe a column in the table
      *
      * @param name       Name of the column in the table
-     * @param alias      Name of alias in data types
+     * @param alias      Name of alias in data types -> example "alias" or "alias.alias"
      * @param editable   Is Editable column, default TRUE
      * @param width      Graphical width in table
      * @param cellNumber

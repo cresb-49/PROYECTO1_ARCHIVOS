@@ -6,6 +6,8 @@ package com.cresb.p1archivos.frontend.pantallas;
 
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
 import com.cresb.p1archivos.backend.models.Cliente;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,10 +17,13 @@ import javax.swing.JOptionPane;
 public class RegistrarCliente extends javax.swing.JDialog {
 
     private Cliente cliente;
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository = new ClienteRepository();
     
     /**
      * Creates new form RegistrarCliente
+     * @param parent
+     * @param modal
+     * @param nit
      */
     public RegistrarCliente(java.awt.Frame parent, boolean modal,String nit) {
         super(parent, modal);
@@ -26,6 +31,7 @@ public class RegistrarCliente extends javax.swing.JDialog {
         this.setResizable(false);
         this.fieldNit.setText(nit);
         this.cliente = new Cliente(nit, "");
+        this.setLocationRelativeTo(parent);
     }
 
     /**
@@ -122,7 +128,7 @@ public class RegistrarCliente extends javax.swing.JDialog {
                     try {
                         this.clienteRepository.save(cliente);
                         JOptionPane.showMessageDialog(this, "Se registro con exito la informacion en la base de datos","Registro Correcto",JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception e) {
+                    } catch (HeadlessException | SQLException e) {
                         JOptionPane.showMessageDialog(this, "Error al registrar al cliente en la base de datos","Error",JOptionPane.ERROR_MESSAGE);
                     }
                 }                

@@ -3,7 +3,6 @@ package com.cresb.p1archivos;
 import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Rol;
-import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.frontend.LoginFrame;
 import com.cresb.p1archivos.frontend.pantallas.FrameAdmin;
 import com.cresb.p1archivos.frontend.pantallas.bodega.FrameBodega;

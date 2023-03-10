@@ -42,9 +42,13 @@ public class LoginFrame extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login");
 
+        fieldUsuario.setText("usuario1");
+
         jLabel1.setText("Usuario:");
 
         jLabel2.setText("Password:");
+
+        fieldPassword.setText("password1");
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
