@@ -179,7 +179,7 @@ public class AgregarProducto extends javax.swing.JDialog {
             //Registro en la bodega
             this.bodegaRepository.save(bodega);
 
-            JOptionPane.showMessageDialog(null, "Se registro con exito el producto", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se registro con exito el producto", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }catch (SQLException ex){
             JOptionPane.showMessageDialog(this, "No se puede registrar el producto en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
