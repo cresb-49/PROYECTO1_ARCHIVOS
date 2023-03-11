@@ -227,6 +227,7 @@ public class FrameInventario extends javax.swing.JFrame {
         if(stock != null){
            FormularioSolicitud formularioSolicitud = new FormularioSolicitud(this, true, stock);
            formularioSolicitud.setVisible(true);
+           this.aplicarInformacion();
         }
     }
 

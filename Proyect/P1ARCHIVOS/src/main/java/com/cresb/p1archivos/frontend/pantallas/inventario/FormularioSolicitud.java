@@ -206,28 +206,31 @@ public class FormularioSolicitud extends javax.swing.JDialog {
             }else{
                 this.selectedItem.setCantidad(valor);
                 this.selectedItem.setStockDestino(this.stockDestino);
-                System.out.println(this.selectedItem.toString());
-                try {
-                    if(this.selectedItem.isIsSucursal()){
-                        //Update sucursal origen
-                        var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()-this.selectedItem.getCantidad()));
-                        this.stockRepository.update(stockViejo);
-                        //System.out.println(stockViejo.toString());
-                        //Update sucursal destino
-                        var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
-                        this.agregarStock(stockNuevo);
-                        
-                    }else{
-                        //Update bodega
-                        var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad()));
-                        //this.bodegaRepository.update(bodega);
-                        System.out.println(bodega.toString());
-                        //Update sucursal destino
-                        var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
-                        this.agregarStock(stockNuevo);
+                //System.out.println(this.selectedItem.toString());
+                int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if(respuesta == JOptionPane.YES_OPTION) {
+                    try {
+                        if(this.selectedItem.isIsSucursal()){
+                            //Update sucursal origen
+                            var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()-this.selectedItem.getCantidad()));
+                            this.stockRepository.update(stockViejo);
+                            //Update sucursal destino
+                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                            this.agregarStock(stockNuevo);
+
+                        }else{
+                            //Update bodega
+                            var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad()));
+                            this.bodegaRepository.update(bodega);
+                            //Update sucursal destino
+                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                            this.agregarStock(stockNuevo);
+                        }
+                        JOptionPane.showMessageDialog(this, "¡La operación se completó con éxito!", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
             }
         }
@@ -263,7 +266,6 @@ public class FormularioSolicitud extends javax.swing.JDialog {
     private void agregarStock(Stock stockNuevo) throws SQLException {
         if(this.stockRepository.isStockExists(stockNuevo)){
             this.stockRepository.update(stockNuevo);
-            System.out.println(stockNuevo.toString());
         }else{
             this.stockRepository.save(stockNuevo);
         }
