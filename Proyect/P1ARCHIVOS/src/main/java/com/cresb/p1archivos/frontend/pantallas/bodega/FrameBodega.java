@@ -1,9 +1,13 @@
 package com.cresb.p1archivos.frontend.pantallas.bodega;
 
 import com.cresb.p1archivos.backend.database.repository.BodegaRepository;
+import com.cresb.p1archivos.backend.jDynamicTable.JDynamicTable;
+import com.cresb.p1archivos.backend.jDynamicTable.columns.NumberColumnTable;
+import com.cresb.p1archivos.backend.jDynamicTable.columns.TextColumnTable;
 import com.cresb.p1archivos.backend.models.Bodega;
 import com.cresb.p1archivos.backend.models.Empleado;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +17,8 @@ import java.util.List;
 public class FrameBodega extends javax.swing.JFrame {
 
     private Empleado empleado;
-    private BodegaRepository bodegaRepository;
+    private BodegaRepository bodegaRepository = new BodegaRepository();
+    private JDynamicTable<Object> dt;
     
     /**
      * Creates new form FrameBodega
@@ -22,6 +27,11 @@ public class FrameBodega extends javax.swing.JFrame {
     public FrameBodega(Empleado empleado) {
         initComponents();
         this.empleado = empleado;
+        this.LabelUsuario.setText("Empleado: "+this.empleado.getNombre());
+        this.dt = new JDynamicTable<>(this.jTable1,this);
+        this.inicializarTabla();
+        this.setLocationRelativeTo(null);
+        this.aplicarInformacion();
     }
 
     /**
@@ -48,6 +58,7 @@ public class FrameBodega extends javax.swing.JFrame {
         LabelUsuario = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BODEGA");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,21 +157,26 @@ public class FrameBodega extends javax.swing.JFrame {
         //Codigo para agregar un producto a la bodega:
         AgregarProducto agregarProducto = new AgregarProducto(this, true);
         agregarProducto.setVisible(true);
+        this.aplicarInformacion();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Seleccion del tipo de parametro a buscar:
         String parametro = this.fieldParametro.getText();
         try {
-            if(this.RadioCodigo.isSelected()){
-                this.actualizarTabla(this.bodegaRepository.findByIdProducto(parametro));
-            }else if(this.RadioMarca.isSelected()){
-                this.actualizarTabla(this.bodegaRepository.findByMarcaProducto(parametro));
-            }else if(this.RadioNombre.isSelected()){
-                this.actualizarTabla(this.bodegaRepository.findByNombreProducto(parametro));
+            if(parametro.isBlank()||parametro.isBlank()){
+                this.aplicarInformacion();
+            }else{
+                if(this.RadioCodigo.isSelected()){
+                    this.setInformaciondt(this.bodegaRepository.findByIdProducto(parametro));
+                }else if(this.RadioMarca.isSelected()){
+                    this.setInformaciondt(this.bodegaRepository.findByMarcaProducto(parametro));
+                }else if(this.RadioNombre.isSelected()){
+                    this.setInformaciondt(this.bodegaRepository.findByNombreProducto(parametro));
+                }
             }
         } catch (SQLException e) {
-            System.out.println("adshjkdgashjdgjasghd");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -180,8 +196,36 @@ public class FrameBodega extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-    private void actualizarTabla(List<Bodega> data) {
-        //TODO: Generar la accion del metodo
-        
+    private void inicializarTabla() {
+        dt.addColumn(new TextColumnTable("Codigo", "producto.id", true, 50));
+        dt.addColumn(new TextColumnTable("Nombre", "producto.nombre", false, 100));
+        dt.addColumn(new TextColumnTable("Marca", "producto.marca", false, 100));
+        dt.addColumn(new NumberColumnTable("Valor", "producto.valor", false, 100));
+        dt.addColumn(new NumberColumnTable("Cantidad", "cantidad", false, 50));
+        ButtonAgregarTabla btnAgregar = new ButtonAgregarTabla("Agregar", "Agregar", 50);
+        dt.addColumn(btnAgregar);
+        dt.apply();
+    }
+
+    private void aplicarInformacion() {
+        try {
+            this.dt.setData(new ArrayList<>(this.bodegaRepository.findAll()));
+            this.dt.apply();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void setInformaciondt(List<Bodega> elements) {
+        this.dt.setData(new ArrayList<>(elements));
+        this.dt.apply();
+    }
+    
+    public void initFormAgregar(Bodega bodega){
+        if(bodega != null){
+           AgregarExistenciaBodega agregarExistenciaBodega = new AgregarExistenciaBodega(this, true, bodega);
+           agregarExistenciaBodega.setVisible(true);
+           this.aplicarInformacion();
+        }
     }
 }

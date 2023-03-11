@@ -76,4 +76,16 @@ public class ProductoRepository extends RepositoryBase{
             stmt.executeUpdate();
         }
     }
+    
+    public String lastId() throws SQLException{
+        String result = "P0000";
+        String sql = "select p.id from mercancia.producto as p order by p.id desc limit 1";
+        try (Statement st = GetConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getString("id");
+            }
+        }
+        return result;
+    }
 }
