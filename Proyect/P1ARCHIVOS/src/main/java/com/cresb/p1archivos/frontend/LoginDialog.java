@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ */
 package com.cresb.p1archivos.frontend;
 
 import com.cresb.p1archivos.backend.database.repository.EmpleadoRepository;
@@ -10,17 +14,19 @@ import javax.swing.JOptionPane;
  *
  * @author Dango
  */
-public class LoginFrame extends javax.swing.JDialog {
-    
-    private EmpleadoRepository empleadoRepository;
+public class LoginDialog extends javax.swing.JDialog {
+
+    private final EmpleadoRepository empleadoRepository = new EmpleadoRepository();
     private Empleado empleado = null;
     
-    public LoginFrame(java.awt.Frame parent, boolean modal) {
+    /**
+     * Creates new form LoginDialog
+     */
+    public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        initComponents();
-        this.empleadoRepository = new EmpleadoRepository();
     }
 
     /**
@@ -40,7 +46,7 @@ public class LoginFrame extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Login");
+        setTitle("LOGIN");
 
         fieldUsuario.setText("usuario13");
 
@@ -87,7 +93,7 @@ public class LoginFrame extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel3)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -107,7 +113,7 @@ public class LoginFrame extends javax.swing.JDialog {
         String usuario = this.fieldUsuario.getText();
         String password = new String(this.fieldPassword.getPassword());
         try {
-            empleado = this.empleadoRepository.login(usuario,Encriptar.encriptar(password));
+            this.empleado = this.empleadoRepository.login(usuario,Encriptar.encriptar(password));
             if(empleado!= null){
                 System.out.println("Login: Credenciales correctas");
                 //Cerramos el JDialog
@@ -128,12 +134,12 @@ public class LoginFrame extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
-        
-    public Empleado getEmpleado(){
-        return empleado;
+
+    public Empleado getEmpleado() {
+        return this.empleado;
     }
-    
-    public void clearOption(){
+
+    public void clearOption() {
         this.empleado = null;
     }
 }

@@ -3,7 +3,7 @@ package com.cresb.p1archivos;
 import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Rol;
-import com.cresb.p1archivos.frontend.LoginFrame;
+import com.cresb.p1archivos.frontend.LoginDialog;
 import com.cresb.p1archivos.frontend.pantallas.FrameAdmin;
 import com.cresb.p1archivos.frontend.pantallas.bodega.FrameBodega;
 import com.cresb.p1archivos.frontend.pantallas.inventario.FrameInventario;
@@ -25,7 +25,7 @@ public class P1ARCHIVOS {
             System.out.println(val+" -> "+Encriptar.encriptar(val));
         }*/
         SucursalRepository sucursalRepository = new SucursalRepository();
-        LoginFrame loginFrame = new LoginFrame(null, true);
+        LoginDialog loginFrame = new LoginDialog(null, true);
         loginFrame.setVisible(true);
         //Recuperacion y limpieza del empleado recuperado
         Empleado empleado = loginFrame.getEmpleado();
