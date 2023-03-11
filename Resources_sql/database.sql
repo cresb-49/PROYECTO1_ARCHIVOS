@@ -43,7 +43,6 @@ CREATE TABLE mercancia.stock(
     producto VARCHAR(10) NOT NULL,
     sucursal VARCHAR(10) NOT NULL,
     cantidad INT NOT NULL,
-    PRIMARY KEY(producto,sucursal),
     Foreign Key (producto) REFERENCES mercancia.producto(id),
     Foreign Key (sucursal) REFERENCES infraestructura.sucursal(id)
 );
