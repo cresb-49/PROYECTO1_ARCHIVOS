@@ -121,8 +121,11 @@ public class AgregarExistenciaBodega extends javax.swing.JDialog {
             if(respuesta == JOptionPane.YES_OPTION) {
                 try {
                     //Verificar si existe en bodega
-                    
-                    this.bodegaRepository.update(newBodega);
+                    if(this.bodegaRepository.isExists(newBodega)){
+                        this.bodegaRepository.update(newBodega);
+                    }else{
+                        this.bodegaRepository.save(newBodega);
+                    }
                     JOptionPane.showMessageDialog(this, "¡La operación se completó con éxito!", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } catch (SQLException ex) {

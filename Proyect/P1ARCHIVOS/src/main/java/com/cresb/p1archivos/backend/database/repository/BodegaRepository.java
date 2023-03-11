@@ -67,18 +67,16 @@ public class BodegaRepository extends RepositoryBase{
         return bodegas;
     }
     
-    public boolean isExists(String marcaProducto) throws SQLException {
-        List<Bodega> bodegas = new ArrayList<>();
-        try (PreparedStatement statement = GetConnection().prepareStatement("SELECT p.*, COALESCE(b.cantidad, 0) AS cantidad FROM mercancia.producto p LEFT JOIN mercancia.bodega b ON p.id = b.producto WHERE p.marca LIKE ?")) {
-            statement.setString(1, "%"+marcaProducto+"%");
+    public boolean isExists(Bodega bodega) throws SQLException {
+        try (PreparedStatement statement = GetConnection().prepareStatement("SELECT b.producto FROM mercancia.bodega b  WHERE b.producto = ?")) {
+            statement.setString(1, bodega.getProducto().getId());
             try(ResultSet resultSet = statement.executeQuery()){
-                while (resultSet.next()) {
-                    Bodega bodega = new Bodega(new Producto(resultSet.getString("id"), resultSet.getString("nombre"), resultSet.getString("marca"), resultSet.getDouble("valor"), resultSet.getString("descripcion")),resultSet.getInt("cantidad"));
-                    bodegas.add(bodega);
+                if(resultSet.next()) {
+                    return true;
                 }
             }
         }
-        return bodegas;
+        return false;
     }
     
     public void save(Bodega bodega) throws SQLException {
