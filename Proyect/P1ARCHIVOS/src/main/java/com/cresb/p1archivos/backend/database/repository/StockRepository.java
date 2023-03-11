@@ -176,8 +176,60 @@ public class StockRepository extends RepositoryBase {
         }
     }
     
-    /*
+    public Stock findStockBySucursalAndProducto(String sucursal,String producto) throws SQLException{
+        String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and s.producto = ?";
+        Stock result = null;
+        try(PreparedStatement ps = GetConnection().prepareStatement(query)) {
+            ps.setString(1, sucursal);
+            ps.setString(2, producto);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    String id = rs.getString("id");
+                    String nombre = rs.getString("nombre");
+                    String marca = rs.getString("marca");
+                    double valor = rs.getDouble("valor");
+                    String des = rs.getString("descripcion");
+                    int cantidad = rs.getInt("cantidad");
+                    result = new Stock(new Producto(id, nombre, marca, valor, des),sucursal,cantidad);
+                }
+            }
+        }
+        return result;
+    }
     
+    public boolean isStockExists(Stock stock) throws SQLException{
+        String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and s.producto = ?";
+        try(PreparedStatement ps = GetConnection().prepareStatement(query)) {
+            ps.setString(1, stock.getSucursal());
+            ps.setString(2, stock.getProducto().getId());
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void update(Stock stock) throws SQLException{
+        try (PreparedStatement statement = GetConnection().prepareStatement("UPDATE mercancia.stock SET cantidad = ? WHERE producto = ? AND sucursal = ?")){
+            statement.setInt(1, stock.getCantidad());
+            statement.setString(2, stock.getProducto().getId());
+            statement.setString(3, stock.getSucursal());
+            statement.executeUpdate();
+        }
+    }
+    
+    public void save(Stock stock) throws SQLException {
+        try (PreparedStatement stmt = GetConnection().prepareStatement("INSERT INTO mercancia.stock (producto, sucursal, cantidad) VALUES (?, ?, ?)")) {    
+           stmt.setString(1, stock.getProducto().getId());
+           stmt.setString(2, stock.getSucursal());
+           stmt.setInt(3, stock.getCantidad());   
+           stmt.executeUpdate();
+       }
+    }
+    
+    /*
     public List<Stock> findAllBySucursalAndMarca(String sucursal,String marca_s) throws SQLException {
         String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and p.marca LIKE ?";
         List<Stock> stocks = new ArrayList<>();
@@ -197,7 +249,6 @@ public class StockRepository extends RepositoryBase {
             return stocks;
         }
     }
-    
     public List<Stock> findAllBySucursalAndExistencia (String sucursal,int existencia) throws SQLException {
         String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and s.cantidad = ?";
         List<Stock> stocks = new ArrayList<>();
@@ -216,5 +267,6 @@ public class StockRepository extends RepositoryBase {
             }
             return stocks;
         }
-    }*/
+    }
+    */
 }

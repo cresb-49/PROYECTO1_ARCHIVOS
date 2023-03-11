@@ -5,29 +5,29 @@ import java.util.Objects;
 public class Stock {
 
     private Producto producto;
-    private String sucursalId;
+    private String sucursal;
     private int cantidad;
 
-    public Stock(Producto producto, String sucursalId, int cantidad) {
+    public Stock(Producto producto, String sucursal, int cantidad) {
         this.producto = producto;
-        this.sucursalId = sucursalId;
+        this.sucursal = sucursal;
         this.cantidad = cantidad;
     }
 
-    public Producto getProductoId() {
+    public Producto getProducto() {
         return producto;
     }
 
-    public void setProductoId(Producto producto) {
+    public void setProducto(Producto producto) {
         this.producto = producto;
     }
 
-    public String getSucursalId() {
-        return sucursalId;
+    public String getSucursal() {
+        return sucursal;
     }
 
-    public void setSucursalId(String sucursalId) {
-        this.sucursalId = sucursalId;
+    public void setSucursal(String sucursal) {
+        this.sucursal = sucursal;
     }
 
     public int getCantidad() {
@@ -40,14 +40,14 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock [producto=" + producto.getId() + ", sucursalId=" + sucursalId + ", cantidad=" + cantidad + "]";
+        return "Stock [producto=" + producto.getId() + ", sucursal=" + sucursal + ", cantidad=" + cantidad + "]";
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 47 * hash + Objects.hashCode(this.producto);
-        hash = 47 * hash + Objects.hashCode(this.sucursalId);
+        hash = 47 * hash + Objects.hashCode(this.sucursal);
         return hash;
     }
 
@@ -63,7 +63,7 @@ public class Stock {
             return false;
         }
         final Stock other = (Stock) obj;
-        if (!Objects.equals(this.sucursalId, other.sucursalId)) {
+        if (!Objects.equals(this.sucursal, other.sucursal)) {
             return false;
         }
         return Objects.equals(this.producto, other.producto);

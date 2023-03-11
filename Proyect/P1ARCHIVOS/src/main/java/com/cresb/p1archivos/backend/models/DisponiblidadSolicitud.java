@@ -8,23 +8,19 @@ import java.util.Objects;
  */
 public class DisponiblidadSolicitud {
     private boolean isSucursal;
-    private String lugar;
-    private String code;
     private int cantidad;
+    private String lugar;
     //variable de control
-    private int cantidadSolicitar;
-
-    public DisponiblidadSolicitud(String lugar) {
-        this.lugar = lugar;
-    }
+    private Stock stockOrigen;
+    private Stock stockDestino;
     
-    public DisponiblidadSolicitud(boolean isSucursal, String lugar, String code, int cantidad) {
+    public DisponiblidadSolicitud(boolean isSucursal,String lugar,Stock origen ,Stock destino ,int cantidad) {
         this.isSucursal = isSucursal;
         this.lugar = lugar;
-        this.code = code;
+        this.stockOrigen = origen;
+        this.stockDestino = destino;
         this.cantidad = cantidad;
     }
-    
     
     public boolean isIsSucursal() {
         return isSucursal;
@@ -32,14 +28,6 @@ public class DisponiblidadSolicitud {
 
     public void setIsSucursal(boolean isSucursal) {
         this.isSucursal = isSucursal;
-    }
-
-    public String getLugar() {
-        return lugar;
-    }
-
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
     }
 
     public int getCantidad() {
@@ -50,46 +38,33 @@ public class DisponiblidadSolicitud {
         this.cantidad = cantidad;
     }
 
-    public int getCantidadSolicitar() {
-        return cantidadSolicitar;
+    public Stock getStockDestino() {
+        return stockDestino;
     }
 
-    public void setCantidadSolicitar(int cantidadSolicitar) {
-        this.cantidadSolicitar = cantidadSolicitar;
+    public void setStockDestino(Stock stockDestino) {
+        this.stockDestino = stockDestino;
     }
 
-    public String getCode() {
-        return code;
+    public Stock getStockOrigen() {
+        return stockOrigen;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setStockOrigen(Stock stockOrigen) {
+        this.stockOrigen = stockOrigen;
     }
-    
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
     @Override
     public String toString() {
-        return "DisponiblidadSolicitud{" + "lugar=" + lugar + '}';
+        return "DisponiblidadSolicitud{" + "isSucursal=" + isSucursal + ", cantidad=" + cantidad + ", lugar=" + lugar + ", stockOrigen=" + stockOrigen + ", stockDestino=" + stockDestino + '}';
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.lugar);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DisponiblidadSolicitud other = (DisponiblidadSolicitud) obj;
-        return Objects.equals(this.lugar, other.lugar);
-    }
+    
 }

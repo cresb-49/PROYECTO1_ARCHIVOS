@@ -1,12 +1,13 @@
 package com.cresb.p1archivos.frontend.pantallas.inventario;
 
+import com.cresb.p1archivos.backend.database.repository.BodegaRepository;
 import com.cresb.p1archivos.backend.database.repository.DisponiblidadSolicitudRepository;
+import com.cresb.p1archivos.backend.database.repository.StockRepository;
+import com.cresb.p1archivos.backend.models.Bodega;
 import com.cresb.p1archivos.backend.models.DisponiblidadSolicitud;
 import com.cresb.p1archivos.backend.models.Stock;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,22 +16,26 @@ import javax.swing.JOptionPane;
  */
 public class FormularioSolicitud extends javax.swing.JDialog {
 
-    private Stock stock;
+    private Stock stockDestino;
     private final DisponiblidadSolicitudRepository disponiblidadSolicitudRepository = new DisponiblidadSolicitudRepository();
-    
+    private final BodegaRepository bodegaRepository = new BodegaRepository();
+    private final StockRepository stockRepository = new StockRepository();
     private ArrayList<DisponiblidadSolicitud> disponibilidad = new ArrayList<>();
     private DisponiblidadSolicitud selectedItem;
     
     /**
      * Creates new form FormularioSolicitud
+     * @param parent
+     * @param modal
+     * @param stock
      */
     public FormularioSolicitud(java.awt.Frame parent, boolean modal,Stock stock) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
-        this.stock = stock;
-        this.jTextField1.setText(this.stock.getProductoId().getId());
-        this.jTextField2.setText(this.stock.getProductoId().getNombre());
+        this.stockDestino = stock;
+        this.jTextField1.setText(this.stockDestino.getProducto().getId());
+        this.jTextField2.setText(this.stockDestino.getProducto().getNombre());
         
         this.cargarDisponibilidad();
     }
@@ -187,7 +192,7 @@ public class FormularioSolicitud extends javax.swing.JDialog {
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         int pos = this.jComboBox1.getSelectedIndex();
         this.selectedItem = this.disponibilidad.get(pos);
-        this.jTextField3.setText(String.valueOf(this.selectedItem.getCantidad()));
+        this.jTextField3.setText(String.valueOf(this.selectedItem.getStockOrigen().getCantidad()));
         
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
@@ -196,10 +201,34 @@ public class FormularioSolicitud extends javax.swing.JDialog {
         if(valor < 1){
             JOptionPane.showMessageDialog(this, "El valor a solicitar debe ser mayor o igual", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(valor > this.selectedItem.getCantidad()){
+            if(valor > this.selectedItem.getStockOrigen().getCantidad()){
                 JOptionPane.showMessageDialog(this, "No puede solicitar mas productos de los disponibles", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                
+                this.selectedItem.setCantidad(valor);
+                this.selectedItem.setStockDestino(this.stockDestino);
+                System.out.println(this.selectedItem.toString());
+                try {
+                    if(this.selectedItem.isIsSucursal()){
+                        //Update sucursal origen
+                        var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()-this.selectedItem.getCantidad()));
+                        this.stockRepository.update(stockViejo);
+                        //System.out.println(stockViejo.toString());
+                        //Update sucursal destino
+                        var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                        this.agregarStock(stockNuevo);
+                        
+                    }else{
+                        //Update bodega
+                        var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad()));
+                        //this.bodegaRepository.update(bodega);
+                        System.out.println(bodega.toString());
+                        //Update sucursal destino
+                        var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                        this.agregarStock(stockNuevo);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -222,12 +251,21 @@ public class FormularioSolicitud extends javax.swing.JDialog {
 
     private void cargarDisponibilidad() {
         try {
-            this.disponibilidad = (ArrayList<DisponiblidadSolicitud>) this.disponiblidadSolicitudRepository.disponibilidad(this.stock.getProductoId().getId(), this.stock.getSucursalId());
+            this.disponibilidad = (ArrayList<DisponiblidadSolicitud>) this.disponiblidadSolicitudRepository.disponibilidad(this.stockDestino.getProducto().getId(), this.stockDestino.getSucursal());
             for (DisponiblidadSolicitud disponiblidadSolicitud : this.disponibilidad) {
                 jComboBox1.addItem(disponiblidadSolicitud.getLugar());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void agregarStock(Stock stockNuevo) throws SQLException {
+        if(this.stockRepository.isStockExists(stockNuevo)){
+            this.stockRepository.update(stockNuevo);
+            System.out.println(stockNuevo.toString());
+        }else{
+            this.stockRepository.save(stockNuevo);
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.cresb.p1archivos.backend.database.repository;
 
 import com.cresb.p1archivos.backend.models.DisponiblidadSolicitud;
+import com.cresb.p1archivos.backend.models.Producto;
+import com.cresb.p1archivos.backend.models.Stock;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +22,9 @@ public class DisponiblidadSolicitudRepository extends RepositoryBase {
             statement.setString(1, producto);
             statement.setString(2,sucursal);
             try(ResultSet rs = statement.executeQuery()){
-                while (rs.next()) {        
-                    dis.add(new DisponiblidadSolicitud(true, rs.getString("nombre"), rs.getString("sucursal"),rs.getInt("cantidad")));
+                while (rs.next()) {
+                    var result = new Stock(new Producto(producto, null, null, 0, null),rs.getString("sucursal"),rs.getInt("cantidad"));
+                    dis.add(new DisponiblidadSolicitud(true, rs.getString("nombre"),result ,null,0));
                 }
             }
         }
@@ -30,7 +33,8 @@ public class DisponiblidadSolicitudRepository extends RepositoryBase {
             statement.setString(1, producto);
             try(ResultSet rs = statement.executeQuery()){
                 if (rs.next()) {        
-                    dis.add(new DisponiblidadSolicitud(false, "Bodega","Bodega",rs.getInt("cantidad")));
+                    var result = new Stock(new Producto(producto, null, null, 0, null),"Bodega",rs.getInt("cantidad"));
+                    dis.add(new DisponiblidadSolicitud(false, "Bodega",result ,null,0));
                 }
             }
         }

@@ -81,17 +81,13 @@ public class BodegaRepository extends RepositoryBase{
         try (PreparedStatement statement = GetConnection().prepareStatement("UPDATE mercancia.bodega SET cantidad = ? WHERE producto = ?")){
             statement.setInt(1, bodega.getCantidad());
             statement.setString(2, bodega.getProducto().getId());
-
             statement.executeUpdate();
         }
     }
 
     public void delete(String producto) throws SQLException {
-        try (PreparedStatement statement = GetConnection().prepareStatement(
-                "DELETE FROM mercancia.bodega WHERE producto = ?"
-        )) {
+        try (PreparedStatement statement = GetConnection().prepareStatement("DELETE FROM mercancia.bodega WHERE producto = ?")) {
             statement.setString(1, producto);
-
             statement.executeUpdate();
         }
     }

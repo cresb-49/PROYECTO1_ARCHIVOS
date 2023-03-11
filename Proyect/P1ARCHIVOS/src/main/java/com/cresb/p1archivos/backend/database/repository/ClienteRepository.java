@@ -12,7 +12,6 @@ public class ClienteRepository extends RepositoryBase{
 
     public void save(Cliente cliente) throws SQLException {
         String sql = "INSERT INTO consumidor.cliente(nit, nombre) VALUES (?, ?)";
-        
         try (PreparedStatement pstmt = GetConnection().prepareStatement(sql)) {
 
             pstmt.setString(1, cliente.getNit());

@@ -286,7 +286,7 @@ public class FrameVentas extends javax.swing.JFrame {
         seleccionarProducto.setVisible(true);
         this.currentWork = seleccionarProducto.getSelectedStok();
         if(this.currentWork!= null ){
-            this.fieldProducto.setText(this.currentWork.getProductoId().getNombre());
+            this.fieldProducto.setText(this.currentWork.getProducto().getNombre());
         }else{
             this.fieldProducto.setText(null);
         }
@@ -302,7 +302,7 @@ public class FrameVentas extends javax.swing.JFrame {
                     int cantidad = (int) jSpinner1.getValue();
                     if(cantidad >= 1){
                         if(cantidad <= this.currentWork.getCantidad()){
-                            var des = new Descripcion(this.currentWork.getProductoId(), this.venta, cantidad);
+                            var des = new Descripcion(this.currentWork.getProducto(), this.venta, cantidad);
                             des.setStock(currentWork);
                             descripcion.add(des);
                             this.actulizarInfoTabla();
