@@ -10,25 +10,37 @@ import java.util.List;
 
 public class VentaRepository extends RepositoryBase{
     
-    private ClienteRepository clienteRepository;
-    private EmpleadoRepository empleadoRepository;
+    
     private DescripcionRepository descripcionRepository;
     
     public VentaRepository() {
-        this.clienteRepository = new ClienteRepository();
-        this.empleadoRepository = new EmpleadoRepository();
+        
     }
 
     public void agregarVenta(Venta venta) throws SQLException {
-        String sql = "INSERT INTO comercio.venta(id, fecha, cliente, empleado, descuento) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO comercio.venta(id, fecha, cliente, empleado, descuento) VALUES (?,to_timestamp(?, 'YYYY-MM-DD HH24:MI:SS'), ?, ?, ?)";
         try (PreparedStatement statement = GetConnection().prepareStatement(sql)) {
             statement.setString(1, venta.getId());
-            statement.setDate(2, new java.sql.Date(venta.getFecha().getTime()));
+            statement.setString(2, venta.getFecha());
             statement.setString(3, venta.getCliente().getNit());
             statement.setString(4, venta.getEmpleado().getNickname());
             statement.setDouble(5, venta.getDescuento());
             statement.executeUpdate();
         }
+    }
+    
+    public double obtenerCostoUltimaCompra(String nit) throws SQLException{
+        String sql = "select SUM(p.valor * d.cantidad *(1 - v.descuento)) as costo,v.id,v.fecha from comercio.descripcion as d inner join comercio.venta as v on d.venta = v.id inner join consumidor.cliente as c on c.nit = v.cliente inner join mercancia.producto as p on d.producto = p.id where c.nit = ? group by v.id order by v.fecha desc limit 1;";
+        double result = 0;
+        try (PreparedStatement ps = GetConnection().prepareStatement(sql);){
+           ps.setString(1, nit);
+            try(ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    result = resultSet.getDouble("costo");
+                }
+            }
+        }
+        return result;
     }
 
     public List<Venta> obtenerVentas() throws SQLException {
@@ -39,13 +51,13 @@ public class VentaRepository extends RepositoryBase{
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
-                Date fecha = resultSet.getDate("fecha");
+                String fecha = resultSet.getString("fecha");
                 String clienteNit = resultSet.getString("cliente");
                 String empleadoNickname = resultSet.getString("empleado");
                 double descuento = resultSet.getDouble("descuento");
 
-                Cliente cliente = clienteRepository.findById(clienteNit);
-                Empleado empleado = empleadoRepository.findById(empleadoNickname);
+                Cliente cliente = null;
+                Empleado empleado = null;
                 List<Descripcion> descripcion = this.descripcionRepository.findByVentaId(id) ;
                 Venta venta = new Venta(id, fecha, cliente, empleado, descuento,descripcion);
                 ventas.add(venta);

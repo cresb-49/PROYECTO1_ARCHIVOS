@@ -59,7 +59,7 @@ CREATE TABLE consumidor.cliente(
 );
 CREATE TABLE comercio.venta(
     id VARCHAR(50) NOT NULL,
-    fecha DATE NOT NULL,
+    fecha TIMESTAMP NOT NULL,
     cliente VARCHAR(20) NOT NULL,
     empleado VARCHAR(20) NOT NULL,
     descuento DECIMAL(10,2) NOT NULL,

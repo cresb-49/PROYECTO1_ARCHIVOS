@@ -6,13 +6,13 @@ import java.util.List;
 public class Venta {
 
     private String id;
-    private Date fecha;
+    private String fecha;
     private Cliente cliente;
     private Empleado empleado;
     private double descuento;
     private List<Descripcion> descripcion;
 
-    public Venta(String id, Date fecha, Cliente cliente, Empleado empleado, double descuento,List<Descripcion> descripcion) {
+    public Venta(String id, String fecha, Cliente cliente, Empleado empleado, double descuento,List<Descripcion> descripcion) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
@@ -29,11 +29,11 @@ public class Venta {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

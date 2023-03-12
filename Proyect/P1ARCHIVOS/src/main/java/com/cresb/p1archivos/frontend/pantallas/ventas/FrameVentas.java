@@ -362,22 +362,47 @@ public class FrameVentas extends javax.swing.JFrame {
        if(this.venta!=null){
            //Asignacion de codigo y fecha de venta
             this.venta.setId(dateManagment.getIdDateTime());
-            this.venta.setFecha(dateManagment.currentDate());
-            //System.out.println(this.venta.toString());
+            this.venta.setFecha(dateManagment.currentDateTime());
             try {
-               //Registro de la venta 
-               this.ventaRepository.agregarVenta(this.venta);
-               try {
-                    //Registro de la descripcion de la venta
-                    for (Descripcion descripcion1 : this.descripcion) {
-                        this.descripcionRepository.save(descripcion1);
+                //Obtenemos el porcentaje de descuento segun el valor de la compra anterior
+                var result = this.ventaRepository.obtenerCostoUltimaCompra(this.cliente.getNit());
+                double descuento = 0;
+                if(result >= 1000 && result < 5000){
+                    descuento = 0.02;
+                }else if(result >= 5000 && result < 10000){
+                    descuento = 0.05;
+                }else if(result >= 10000){
+                    descuento = 0.1;
+                }
+                //Asignacion del descuento de la venta
+                this.venta.setDescuento(descuento);
+                
+                if(this.venta.getDescuento() != 0){
+                    //Mostrar el valor final de venta
+                    var val = this.calcularValor() * (1-this.venta.getDescuento());
+                    this.jTextField2.setText("Q. "+val);
+                    //Mostrar al usuario el valor final
+                    JOptionPane.showMessageDialog(this,String.format("La compra tuvo un descuento de %d%s el valor final es Q.%f",(int)(descuento*100),"%",val),"Descuento",JOptionPane.INFORMATION_MESSAGE);
+                }
+                
+                try {
+                    //Registro de la venta 
+                    this.ventaRepository.agregarVenta(this.venta);
+                    try {
+                         //Registro de la descripcion de la venta
+                         for (Descripcion descripcion1 : this.descripcion) {
+                             this.descripcionRepository.save(descripcion1);
+                         }
+                    }catch (SQLException ex){
+                        System.out.println("Error => "+ex.getMessage());
                     }
-               }catch (SQLException ex){
-                   System.out.println("Error => "+ex.getMessage());
-               }
-           } catch (SQLException ex) {
-               ex.printStackTrace();
-           }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                
+            } catch (SQLException ex) {
+               System.out.println("Error => "+ex.getMessage());
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -479,21 +504,19 @@ public class FrameVentas extends javax.swing.JFrame {
     }
 
     private void generarObjetoVenta() {
-        venta = new Venta(this.generarIdVenta(), this.getFecha(), this.cliente, this.empleado, 0, descripcion);
+        venta = new Venta(null, null, this.cliente, this.empleado, 0, descripcion);
     }
     
-    private String generarIdVenta(){   
-        return null;   
-    }
-    private Date getFecha(){
-        return null;
-    }
     private void mostrarValor() {
+        this.jTextField2.setText("Q."+this.calcularValor());
+    }
+    
+    private double calcularValor(){
         double valor = 0;
         for (Descripcion descripcion1 : descripcion) {
             valor = valor +  (descripcion1.getProducto().getValor()*descripcion1.getCantidad());
         }
-        this.jTextField2.setText("Q."+valor);
+        return valor;
     }
 
     public void ModificarCantidadTabla(Descripcion descripcion){
