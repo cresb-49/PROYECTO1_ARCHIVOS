@@ -48,13 +48,13 @@ public class LoginDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("LOGIN");
 
-        fieldUsuario.setText("usuario13");
+        fieldUsuario.setText("usuario1");
 
         jLabel1.setText("Usuario:");
 
         jLabel2.setText("Password:");
 
-        fieldPassword.setText("password13");
+        fieldPassword.setText("password1");
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

@@ -71,8 +71,7 @@ public class Venta {
 
     @Override
     public String toString() {
-        return "Venta [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", empleado=" + empleado
-                + ", descuento=" + descuento + ", descripcion=" + descripcion + "]";
+        return "Venta{" + "id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", empleado=" + empleado + ", descuento=" + descuento + '}';
     }
 
     @Override

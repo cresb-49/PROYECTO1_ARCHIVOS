@@ -71,8 +71,8 @@ CREATE TABLE comercio.descripcion(
     producto VARCHAR(10) NOT NULL,
     venta VARCHAR(50) NOT NULL,
     cantidad INT NOT NULL,
-    PRIMARY KEY(producto),
-    Foreign Key (producto) REFERENCES mercancia.producto (id)
+    Foreign Key (producto) REFERENCES mercancia.producto (id),
+    Foreign Key (venta) REFERENCES comercio.venta (id)
 );
 
 --Inserscion de roles del sistema

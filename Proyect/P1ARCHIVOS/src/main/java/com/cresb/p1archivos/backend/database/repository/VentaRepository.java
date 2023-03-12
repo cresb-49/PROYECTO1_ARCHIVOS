@@ -29,7 +29,6 @@ public class VentaRepository extends RepositoryBase{
             statement.setDouble(5, venta.getDescuento());
             statement.executeUpdate();
         }
-        this.descripcionRepository.save(venta.getDescripcion());
     }
 
     public List<Venta> obtenerVentas() throws SQLException {

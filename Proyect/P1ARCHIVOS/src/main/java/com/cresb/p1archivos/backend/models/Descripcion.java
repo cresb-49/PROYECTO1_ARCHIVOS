@@ -1,5 +1,7 @@
 package com.cresb.p1archivos.backend.models;
 
+import java.util.Objects;
+
 public class Descripcion {
 
     private Producto producto;
@@ -48,31 +50,19 @@ public class Descripcion {
 
     @Override
     public String toString() {
-        return "Descripcion [producto=" + producto.getId() + ", venta=" + venta.getId() + ", cantidad=" + cantidad + "]";
+        return "Descripcion [producto=" + producto.getId() + ", venta=" + venta+ ", cantidad=" + cantidad + "]";
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Descripcion other = (Descripcion) obj;
-        if (producto == null) {
-            if (other.producto != null)
-                return false;
-        } else if (!producto.equals(other.producto))
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Descripcion that = (Descripcion) o;
+        return Objects.equals(producto, that.producto);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((producto == null) ? 0 : producto.hashCode());
-        return result;
+        return Objects.hash(producto);
     }
 }

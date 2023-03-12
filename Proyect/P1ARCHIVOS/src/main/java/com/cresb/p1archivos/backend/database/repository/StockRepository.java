@@ -176,12 +176,12 @@ public class StockRepository extends RepositoryBase {
         }
     }
     
-    public Stock findStockBySucursalAndProducto(String sucursal,String producto) throws SQLException{
+    public Stock findStockBySucursalAndCodigoProducto(String sucursal,String codigoProducto) throws SQLException{
         String query = "SELECT p.*,s.cantidad from mercancia.stock as s inner join mercancia.producto as p on p.id = s.producto where s.sucursal = ? and s.producto = ?";
         Stock result = null;
         try(PreparedStatement ps = GetConnection().prepareStatement(query)) {
             ps.setString(1, sucursal);
-            ps.setString(2, producto);
+            ps.setString(2, codigoProducto);
             try(ResultSet rs = ps.executeQuery()){
                 if(rs.next()){
                     String id = rs.getString("id");

@@ -1,0 +1,1 @@
+select p.id,p.valor,d.cantidad,d.venta from comercio.descripcion as d inner join comercio.venta as v on d.venta = v.id inner join consumidor.cliente as c on c.nit = v.cliente inner join mercancia.producto as p on d.producto = p.id;

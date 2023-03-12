@@ -3,6 +3,9 @@ package com.cresb.p1archivos.frontend.pantallas.ventas;
 
 import com.cresb.p1archivos.backend.DateManagment;
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
+import com.cresb.p1archivos.backend.database.repository.DescripcionRepository;
+import com.cresb.p1archivos.backend.database.repository.StockRepository;
+import com.cresb.p1archivos.backend.database.repository.VentaRepository;
 import com.cresb.p1archivos.backend.jDynamicTable.JDynamicTable;
 import com.cresb.p1archivos.backend.jDynamicTable.columns.NumberColumnTable;
 import com.cresb.p1archivos.backend.jDynamicTable.columns.TextColumnTable;
@@ -12,16 +15,19 @@ import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Stock;
 import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.backend.models.Venta;
-import com.cresb.p1archivos.frontend.pantallas.RegistrarCliente;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class FrameVentas extends javax.swing.JFrame {
     
     private final  ClienteRepository clienteRepository = new ClienteRepository();
+    private final StockRepository stockRepository = new StockRepository();
+    private final VentaRepository ventaRepository = new VentaRepository();
+    private final DescripcionRepository descripcionRepository = new DescripcionRepository();
     private Empleado empleado = null;
     private final DateManagment dateManagment = new DateManagment();
     
@@ -36,7 +42,7 @@ public class FrameVentas extends javax.swing.JFrame {
     private Sucursal sucursal = null;
     
     //Descripcion de la venta
-    private ArrayList<Descripcion> descripcion = new ArrayList<>();
+    private List<Descripcion> descripcion = new ArrayList<>();
     private Venta venta;
     
     /**
@@ -82,6 +88,8 @@ public class FrameVentas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -180,7 +188,7 @@ public class FrameVentas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -194,6 +202,18 @@ public class FrameVentas extends javax.swing.JFrame {
         jLabel5.setText("TOTAL:");
 
         jTextField2.setEditable(false);
+
+        jMenu2.setText("Venta");
+
+        jMenuItem1.setText("Reiniciar Venta");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Empleado: ");
         jMenu1.setEnabled(false);
@@ -303,13 +323,24 @@ public class FrameVentas extends javax.swing.JFrame {
                     if(cantidad >= 1){
                         if(cantidad <= this.currentWork.getCantidad()){
                             var des = new Descripcion(this.currentWork.getProducto(), this.venta, cantidad);
-                            des.setStock(currentWork);
-                            descripcion.add(des);
-                            this.actulizarInfoTabla();
-                            //Fin del proceso limpiar las variables auxiliares
-                            this.currentWork = null;
-                            this.fieldProducto.setText(null);
-                            this.jSpinner1.setValue(1);
+                            try {
+                                des.setStock(currentWork);
+                                //Agregado del producto a la descripcion
+                                this.agregarElProducto(des);
+                                //Actualizamos la informacion de la tabla
+                                this.actulizarInfoTabla();
+                                //Fin del proceso limpiar las variables auxiliares
+                                this.currentWork = null;
+                                this.fieldProducto.setText(null);
+                                this.jSpinner1.setValue(1);
+                            }catch (OutOfStockException ex){
+                                JOptionPane.showMessageDialog(this,ex.getMessage(),"Error de stock",JOptionPane.ERROR_MESSAGE);
+                            }catch (SQLException ex){
+                                JOptionPane.showMessageDialog(this,String.format("No se pude verificar el Stock del producto \"%s\"",des.getProducto().getId()),"Error",JOptionPane.ERROR_MESSAGE);
+                                ex.printStackTrace();
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
                         }else{
                             JOptionPane.showMessageDialog(this, "La unidades disponibles del porducto son: "+this.currentWork.getCantidad(), "Error de stock", JOptionPane.ERROR_MESSAGE);
                         }
@@ -328,12 +359,46 @@ public class FrameVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO: ultima modificacion
-        if(this.venta!=null){
+       if(this.venta!=null){
+           //Asignacion de codigo y fecha de venta
             this.venta.setId(dateManagment.getIdDateTime());
             this.venta.setFecha(dateManagment.currentDate());
+            //System.out.println(this.venta.toString());
+            try {
+               //Registro de la venta 
+               this.ventaRepository.agregarVenta(this.venta);
+               try {
+                    //Registro de la descripcion de la venta
+                    for (Descripcion descripcion1 : this.descripcion) {
+                        this.descripcionRepository.save(descripcion1);
+                    }
+               }catch (SQLException ex){
+                   System.out.println("Error => "+ex.getMessage());
+               }
+           } catch (SQLException ex) {
+               ex.printStackTrace();
+           }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //Eliminacion de los datos
+        this.venta = null;
+        this.cliente = null;
+        
+        //Eliminacion de los datos de vista del cliente
+        this.fieldNit.setText(null);
+        this.fieldNombre.setText(null);
+        
+        //Eliminacion del porducto seleccionado, nombre y cantidad a utilizar
+        this.currentWork = null;
+        this.fieldProducto.setText(null);
+        this.jSpinner1.setValue(1);
+        
+        //Reinicio de la descripcion de la venta
+        this.descripcion = new ArrayList<>();
+        this.actulizarInfoTabla();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -351,7 +416,9 @@ public class FrameVentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
@@ -378,6 +445,7 @@ public class FrameVentas extends javax.swing.JFrame {
             }else{
                 this.cliente = result;
                 this.mostrarInfoCliente();
+                this.generarObjetoVenta();
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println("Error al recuperar la informacion del cliente");
@@ -405,7 +473,7 @@ public class FrameVentas extends javax.swing.JFrame {
     }
     
     private void actulizarInfoTabla(){
-        this.dt.setData(this.descripcion);
+        this.dt.setData((ArrayList<Descripcion>) this.descripcion);
         this.dt.apply();
         this.mostrarValor();
     }
@@ -420,7 +488,6 @@ public class FrameVentas extends javax.swing.JFrame {
     private Date getFecha(){
         return null;
     }
-
     private void mostrarValor() {
         double valor = 0;
         for (Descripcion descripcion1 : descripcion) {
@@ -428,4 +495,49 @@ public class FrameVentas extends javax.swing.JFrame {
         }
         this.jTextField2.setText("Q."+valor);
     }
+
+    public void ModificarCantidadTabla(Descripcion descripcion){
+        ModificarCantidad modificarCantidad = new ModificarCantidad(this,true,this.sucursal,descripcion);
+        modificarCantidad.setVisible(true);
+        this.actulizarInfoTabla();
+    }
+
+    public void EliminarProductoTabla(Descripcion descripcion){
+        int opcion = JOptionPane.showConfirmDialog(this, String.format("¿Esta seguro de eliminar el producto \"%s\" de esta venta?",descripcion.getProducto().getId()), "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            //calculamos el index del objeto
+            int index = this.descripcion.indexOf(descripcion);
+            //procedemos a eliminar
+            int op = JOptionPane.showConfirmDialog(this, String.format("¿Esta seguro de proceder?"), "Confirmación", JOptionPane.YES_NO_OPTION);
+            if(op == JOptionPane.YES_OPTION){
+                this.descripcion.remove(index);
+                this.actulizarInfoTabla();
+            }
+        }
+    }
+
+    private void agregarElProducto(Descripcion des) throws SQLException, OutOfStockException {
+        //Primero debemos buscar si el objeto ya existe en al descripcion para guardarlo
+        int index = this.descripcion.indexOf(des);
+        //Verificamo si existio el objeto
+        if(index != -1){
+            //Recuperamos el objeto
+            var tempdes = this.descripcion.get(index);
+            //Recuperamos el stock del porducto para verificar si se pueden juntar las dos solicitudes
+            var stock = this.stockRepository.findStockBySucursalAndCodigoProducto(this.sucursal.getId(),des.getProducto().getId());
+            //Verificamos si la catnidad es correcta
+            int cantidad = tempdes.getCantidad()+des.getCantidad();
+            if(cantidad > stock.getCantidad()){
+                //El producto supera el stock disponible
+                throw new OutOfStockException(String.format("No puede solicitar %d unidades del producto \"%s\"\nYa que en la sucursal hay %d unidades de existencia",cantidad,des.getProducto().getId(),stock.getCantidad()));
+            }else {
+                //La cantidad solicitada es correcta y se agregra la cantidad a descripccion ya insertada
+                tempdes.setCantidad(cantidad);
+            }
+        }else{
+            //Solo agregamos el objeto si no existe ya en la lista
+            descripcion.add(des);
+        }
+    }
+
 }
