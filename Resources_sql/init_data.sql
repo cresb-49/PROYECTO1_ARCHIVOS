@@ -221,10 +221,55 @@ INSERT INTO mercancia.bodega VALUES ('P0059', 15);
 
 --Informacion de clientes
 
-INSERT INTO consumidor.cliente VALUES ('Ana García López','1234567890');
-INSERT INTO consumidor.cliente VALUES ('Pedro Rodríguez Martínez','2345678901');
-INSERT INTO consumidor.cliente VALUES ('María Fernández Pérez','3456789012');
-INSERT INTO consumidor.cliente VALUES ('Carlos González Sánchez','4567890123');
-INSERT INTO consumidor.cliente VALUES ('Sofía Ramírez Gómez','5678901234');
+INSERT INTO consumidor.cliente VALUES ('1234567890','Ana García López');
+INSERT INTO consumidor.cliente VALUES ('2345678901','Pedro Rodríguez Martínez');
+INSERT INTO consumidor.cliente VALUES ('3456789012','María Fernández Pérez');
+INSERT INTO consumidor.cliente VALUES ('4567890123','Carlos González Sánchez');
+INSERT INTO consumidor.cliente VALUES ('5678901234','Sofía Ramírez Gómez');
 
 --Informacion de ventas
+INSERT INTO comercio.descripcion VALUES 
+('P0003', '130323131524262', 1),
+('P0029', '130323131524262', 1),
+('P0002', '130323131839463', 1),
+('P0016', '130323131839463', 3),
+('P0024', '130323131952831', 1),
+('P0010', '130323131952831', 1),
+('P0030', '130323131952831', 1),
+('P0027', '130323132055259', 2),
+('P0004', '130323132055259', 1),
+('P0005', '130323132055259', 1),
+('P0001', '130323132055259', 1),
+('P0005', '130323132156637', 1),
+('P0026', '130323132156637', 2),
+('P0054', '130323132641995', 1),
+('P0035', '130323132712623', 2),
+('P0032', '130323132712623', 1),
+('P0041', '130323132747601', 2),
+('P0037', '130323132823173', 3),
+('P0055', '130323132854871', 2),
+('P0040', '130323132946040', 1),
+('P0062', '130323133111662', 1),
+('P0068', '130323133131602', 3),
+('P0065', '130323133158964', 2),
+('P0058', '130323133255309', 4),
+('P0064', '130323133337711', 1),
+('P0061', '130323133337711', 2);
+
+--Insercion de los datos de ventas
+INSERT INTO comercio.venta VALUES ('130323131524262', '2023-03-13 13:15:24', '1234567890', 'usuario1', 0);
+INSERT INTO comercio.venta VALUES ('130323131839463', '2023-03-13 13:18:39', '4567890123', 'usuario1', 0);
+INSERT INTO comercio.venta VALUES ('130323131952831', '2023-03-13 13:19:52', '5678901234', 'usuario2', 0);
+INSERT INTO comercio.venta VALUES ('130323132055259', '2023-03-13 13:20:55', '2345678901', 'usuario3', 0);
+INSERT INTO comercio.venta VALUES ('130323132156637', '2023-03-13 13:21:56', '2345678901', 'usuario3', 0.02);
+INSERT INTO comercio.venta VALUES ('130323132641995', '2023-03-13 13:26:41', '1234567890', 'usuario4', 0);
+INSERT INTO comercio.venta VALUES ('130323132712623', '2023-03-13 13:27:12', '4567890123', 'usuario4', 0);
+INSERT INTO comercio.venta VALUES ('130323132747601', '2023-03-13 13:27:47', '5678901234', 'usuario5', 0);
+INSERT INTO comercio.venta VALUES ('130323132823173', '2023-03-13 13:28:23', '4567890123', 'usuario5', 0.02);
+INSERT INTO comercio.venta VALUES ('130323132854871', '2023-03-13 13:28:54', '2345678901', 'usuario5', 0);
+INSERT INTO comercio.venta VALUES ('130323132946040', '2023-03-13 13:29:46', '3456789012', 'usuario6', 0);
+INSERT INTO comercio.venta VALUES ('130323133111662', '2023-03-13 13:31:11', '4567890123', 'usuario7', 0);
+INSERT INTO comercio.venta VALUES ('130323133131602', '2023-03-13 13:31:31', '1234567890', 'usuario7', 0);
+INSERT INTO comercio.venta VALUES ('130323133158964', '2023-03-13 13:31:58', '3456789012', 'usuario7', 0);
+INSERT INTO comercio.venta VALUES ('130323133255309', '2023-03-13 13:32:55', '1234567890', 'usuario8', 0.02);
+INSERT INTO comercio.venta VALUES ('130323133337711', '2023-03-13 13:33:37', '4567890123', 'usuario9', 0);
