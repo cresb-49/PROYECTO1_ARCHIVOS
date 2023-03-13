@@ -218,3 +218,13 @@ INSERT INTO mercancia.bodega VALUES ('P0053', 9);
 INSERT INTO mercancia.bodega VALUES ('P0055', 11);
 INSERT INTO mercancia.bodega VALUES ('P0057', 13);
 INSERT INTO mercancia.bodega VALUES ('P0059', 15);
+
+--Informacion de clientes
+
+INSERT INTO consumidor.cliente VALUES ('Ana García López','1234567890');
+INSERT INTO consumidor.cliente VALUES ('Pedro Rodríguez Martínez','2345678901');
+INSERT INTO consumidor.cliente VALUES ('María Fernández Pérez','3456789012');
+INSERT INTO consumidor.cliente VALUES ('Carlos González Sánchez','4567890123');
+INSERT INTO consumidor.cliente VALUES ('Sofía Ramírez Gómez','5678901234');
+
+--Informacion de ventas
