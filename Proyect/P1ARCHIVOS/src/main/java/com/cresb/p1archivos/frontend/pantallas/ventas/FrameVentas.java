@@ -376,6 +376,7 @@ public class FrameVentas extends javax.swing.JFrame {
                 }
                 //Asignacion del descuento de la venta
                 this.venta.setDescuento(descuento);
+                //Mostrar al usuario cual fue el resultado del descuento
                 
                 if(this.venta.getDescuento() != 0){
                     //Mostrar el valor final de venta
@@ -385,44 +386,30 @@ public class FrameVentas extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this,String.format("La compra tuvo un descuento de %d%s el valor final es Q.%f",(int)(descuento*100),"%",val),"Descuento",JOptionPane.INFORMATION_MESSAGE);
                 }
                 
-                try {
-                    //Registro de la venta 
-                    this.ventaRepository.agregarVenta(this.venta);
-                    try {
-                         //Registro de la descripcion de la venta
-                         for (Descripcion descripcion1 : this.descripcion) {
-                             this.descripcionRepository.save(descripcion1);
-                         }
-                    }catch (SQLException ex){
-                        System.out.println("Error => "+ex.getMessage());
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                //Registro de la venta 
+                this.ventaRepository.agregarVenta(this.venta);
+                
+                //Registro de la descripciones de la venta
+                for(Descripcion descripcion1 : this.descripcion) {
+                    this.descripcionRepository.save(descripcion1);
                 }
+                
+                //Actualizacion del stock en la sucursal
+                this.actualizarStock();
+                
+                //Reiniciar la ventana de ventas
+                JOptionPane.showConfirmDialog(this, "La venta se realizo exitosamente!!!","Exito",JOptionPane.INFORMATION_MESSAGE);
+                this.reinicioDeVenta();
                 
             } catch (SQLException ex) {
                System.out.println("Error => "+ex.getMessage());
+               ex.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        //Eliminacion de los datos
-        this.venta = null;
-        this.cliente = null;
-        
-        //Eliminacion de los datos de vista del cliente
-        this.fieldNit.setText(null);
-        this.fieldNombre.setText(null);
-        
-        //Eliminacion del porducto seleccionado, nombre y cantidad a utilizar
-        this.currentWork = null;
-        this.fieldProducto.setText(null);
-        this.jSpinner1.setValue(1);
-        
-        //Reinicio de la descripcion de la venta
-        this.descripcion = new ArrayList<>();
-        this.actulizarInfoTabla();
+        this.reinicioDeVenta();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -561,6 +548,34 @@ public class FrameVentas extends javax.swing.JFrame {
             //Solo agregamos el objeto si no existe ya en la lista
             descripcion.add(des);
         }
+    }
+
+    private void actualizarStock() throws SQLException {
+        for (Descripcion descripcion1 : this.descripcion) {
+            var stock = this.stockRepository.findStockBySucursalAndCodigoProducto(this.sucursal.getId(), descripcion1.getProducto().getId());
+            int cantidad = stock.getCantidad() - descripcion1.getCantidad();
+            Stock newStock = new Stock(descripcion1.getProducto(), this.sucursal.getId(), cantidad);
+            this.stockRepository.update(newStock);
+        }
+    }
+
+    private void reinicioDeVenta() {
+        //Eliminacion de los datos
+        this.venta = null;
+        this.cliente = null;
+        
+        //Eliminacion de los datos de vista del cliente
+        this.fieldNit.setText(null);
+        this.fieldNombre.setText(null);
+        
+        //Eliminacion del porducto seleccionado, nombre y cantidad a utilizar
+        this.currentWork = null;
+        this.fieldProducto.setText(null);
+        this.jSpinner1.setValue(1);
+        
+        //Reinicio de la descripcion de la venta
+        this.descripcion = new ArrayList<>();
+        this.actulizarInfoTabla();
     }
 
 }
