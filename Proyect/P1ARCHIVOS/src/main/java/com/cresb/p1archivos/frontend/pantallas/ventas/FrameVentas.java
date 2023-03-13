@@ -281,7 +281,7 @@ public class FrameVentas extends javax.swing.JFrame {
         String nit = this.fieldNit.getText();
         
         if(nit.isBlank()||nit.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Se debe de ingrear un nit","Error de campo",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se debe de ingresar un nit","Error de campo",JOptionPane.ERROR_MESSAGE);
         }else{
             try {
                 var cliente = this.clienteRepository.findById(nit);
@@ -295,7 +295,7 @@ public class FrameVentas extends javax.swing.JFrame {
                     this.generarObjetoVenta();
                 }
             } catch (SQLException e) {
-                System.out.println("Error al recuperar la informacion del cliente");
+                JOptionPane.showMessageDialog(this, "Error al recuperar la informacion del cliente", "Error", JOptionPane.ERROR_MESSAGE);
                 this.fieldNombre.setText("");
             }
         }
@@ -398,7 +398,7 @@ public class FrameVentas extends javax.swing.JFrame {
                 this.actualizarStock();
                 
                 //Reiniciar la ventana de ventas
-                JOptionPane.showConfirmDialog(this, "La venta se realizo exitosamente!!!","Exito",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La venta se realizo exitosamente!!!", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 this.reinicioDeVenta();
                 
             } catch (SQLException ex) {
@@ -460,7 +460,7 @@ public class FrameVentas extends javax.swing.JFrame {
                 this.generarObjetoVenta();
             }
         } catch (HeadlessException | SQLException e) {
-            System.out.println("Error al recuperar la informacion del cliente");
+            JOptionPane.showMessageDialog(this, "Error al recuperar la informacion del cliente", "Error", JOptionPane.ERROR_MESSAGE);
             this.fieldNombre.setText("");
         }
     }
