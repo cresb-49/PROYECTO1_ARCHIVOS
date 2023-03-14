@@ -1,20 +1,20 @@
 package com.cresb.p1archivos.backend.models.reportes;
 
-import java.util.Objects;
-
-
 /**
- * Top 3 empleados con más ingresos
+ * Top 10 productos con más ingresos
  * @author benjamin
  */
-public class Reporte6 {
+public class Reporte7 {
+    
     private String id;
     private String nombre;
+    private String marca;
     private double valor;
 
-    public Reporte6(String id, String nombre, double valor) {
+    public Reporte7(String id, String nombre, String marca, double valor) {
         this.id = id;
         this.nombre = nombre;
+        this.marca = marca;
         this.valor = valor;
     }
 
@@ -34,6 +34,14 @@ public class Reporte6 {
         this.nombre = nombre;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
     public double getValor() {
         return valor;
     }
@@ -44,6 +52,6 @@ public class Reporte6 {
 
     @Override
     public String toString() {
-        return "Reporte6{" + "id=" + id + ", nombre=" + nombre + ", valor=" + valor + '}';
+        return "Reporte7{" + "id=" + id + ", nombre=" + nombre + ", marca=" + marca + ", valor=" + valor + '}';
     }
 }

@@ -20,13 +20,21 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Dango
  */
 public class Reportes {
+    
     private final DecimalFormat formato = new DecimalFormat("#.00");
     private final DateManagment dateManagment = new DateManagment();
     
     public Reportes() {
 
     }
-
+    
+    /**
+     * Top 10 productos más vendidos
+     * @param reporte1
+     * @param empleado
+     * @return
+     * @throws JRException 
+     */
     public JasperPrint genReporte1(List<Reporte1> reporte1,Empleado empleado) throws JRException {
         InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Reporte10prodcutos.jasper"));
         HashMap<String,Object> parametros = new HashMap<>();
@@ -37,6 +45,13 @@ public class Reportes {
         return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
     }
     
+    /**
+     * Top 10 de clientes que más ganancias generan
+     * @param reporte2
+     * @param empleado
+     * @return
+     * @throws JRException 
+     */
     public JasperPrint genReporte2(List<Reporte2> reporte2,Empleado empleado) throws JRException {
         InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Reporte10clientes.jasper"));
         HashMap<String,Object> parametros = new HashMap<>();
@@ -47,6 +62,13 @@ public class Reportes {
         return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
     }
     
+    /**
+     * Top 3 sucursales con más ventas
+     * @param reporte3
+     * @param empleado
+     * @return
+     * @throws JRException 
+     */
     public JasperPrint genReporte3(List<Reporte3> reporte3,Empleado empleado) throws JRException {
         InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/ReporteTop3SucursalesVentasjrxml.jasper"));
         HashMap<String,Object> parametros = new HashMap<>();
@@ -57,6 +79,13 @@ public class Reportes {
         return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
     }
     
+    /**
+     * Top 3 sucursales con más ingresos
+     * @param reporte4
+     * @param empleado
+     * @return
+     * @throws JRException 
+     */
     public JasperPrint genReporte4(List<Reporte4> reporte4,Empleado empleado) throws JRException {
         InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Top3SucursalesMasIngresos.jasper"));
         HashMap<String,Object> parametros = new HashMap<>();
@@ -67,10 +96,45 @@ public class Reportes {
         return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
     }
     
+    /**
+     * Top 3 empleados con más ventas
+     * @param reporte5
+     * @param empleado
+     * @return
+     * @throws JRException 
+     */
     public JasperPrint genReporte5(List<Reporte5> reporte5,Empleado empleado) throws JRException {
         InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Top3EmpleadosMasVentas.jasper"));
         HashMap<String,Object> parametros = new HashMap<>();
         JRBeanArrayDataSource dataSource = new JRBeanArrayDataSource(reporte5.toArray());
+        parametros.put("dt",dataSource);
+        parametros.put("fecha",dateManagment.currentDateTime());
+        parametros.put("generador", empleado.getNickname());
+        return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
+    }
+    
+    /**
+     * Top 3 empleados con más ingresos
+     * @return 
+     */
+    public JasperPrint genReporte6(List<Reporte6> reporte6,Empleado empleado) throws JRException{
+        InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Top3EmpleadosMasIngresos.jasper"));
+        HashMap<String,Object> parametros = new HashMap<>();
+        JRBeanArrayDataSource dataSource = new JRBeanArrayDataSource(reporte6.toArray());
+        parametros.put("dt",dataSource);
+        parametros.put("fecha",dateManagment.currentDateTime());
+        parametros.put("generador", empleado.getNickname());
+        return JasperFillManager.fillReport(inputStream, parametros, new JREmptyDataSource());
+    }
+    
+    /**
+     * Top 10 productos con más ingresos
+     * @return 
+     */
+    public JasperPrint genReporte7(List<Reporte7> reporte7,Empleado empleado) throws JRException{
+        InputStream inputStream = JRLoader.getInputStream(getClass().getResource("/reports/Top10productosMasIngresos.jasper"));
+        HashMap<String,Object> parametros = new HashMap<>();
+        JRBeanArrayDataSource dataSource = new JRBeanArrayDataSource(reporte7.toArray());
         parametros.put("dt",dataSource);
         parametros.put("fecha",dateManagment.currentDateTime());
         parametros.put("generador", empleado.getNickname());

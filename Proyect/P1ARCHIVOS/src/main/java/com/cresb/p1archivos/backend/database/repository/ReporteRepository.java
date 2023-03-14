@@ -104,15 +104,32 @@ public class ReporteRepository extends RepositoryBase{
      * @throws SQLException 
      */
     public List<Reporte6>getReporte6() throws SQLException{
-        String sql = "";
+        String sql = "select e.nickname,e.nombre,sum(valor) as venta from comercio.venta as v inner join colaborador.empleado as e on e.nickname = v.empleado GROUP BY e.nickname order by venta desc limit 3";
         List<Reporte6> reporte6 = new ArrayList<>();
         try (PreparedStatement statement = GetConnection().prepareStatement(sql);ResultSet rs = statement.executeQuery();) {
             while (rs.next()) {
-                //var r = new Reporte6(rs.getString("nickname"),rs.getString("nombre"),rs.getInt("cantidad"));
-                //reporte6.add(r);
+                var r = new Reporte6(rs.getString("nickname"), rs.getString("nombre"), rs.getDouble("venta"));
+                reporte6.add(r);
             }
         }
         return reporte6;
+    }
+    
+    /**
+     * Top 10 productos con más ingresos
+     * @return
+     * @throws SQLException 
+     */
+    public List<Reporte7>getReporte7() throws SQLException{
+        String sql = "select p.id,p.nombre,p.marca,sum(d.cantidad*p.valor*(1-v.descuento)) as valor from comercio.venta as v inner join comercio.descripcion as d on d.venta = v.id inner join mercancia.producto as p on p.id = d.producto group by p.id order by valor desc limit 10;";
+        List<Reporte7> reporte7 = new ArrayList<>();
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql);ResultSet rs = statement.executeQuery();) {
+            while (rs.next()) {
+                var r = new Reporte7(rs.getString("id"),rs.getString("nombre"),rs.getString("marca"),rs.getDouble("valor"));
+                reporte7.add(r);
+            }
+        }
+        return reporte7;
     }
     
     /**

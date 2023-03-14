@@ -291,8 +291,18 @@ public class FrameAdmin extends javax.swing.JFrame {
         });
 
         jButton7.setText("Generar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Generar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setText("Generar");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -401,7 +411,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -469,6 +479,14 @@ public class FrameAdmin extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         this.generarReporte9();
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        this.generarReporte6();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        this.generarReporte7();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboSucursales;
@@ -671,6 +689,38 @@ public class FrameAdmin extends javax.swing.JFrame {
             var jp = this.reportes.genReporte9(reporte9, empleado,sucursal);
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setTitle(String.valueOf("TOP 5 PRODUCTOS MAS VENDIDOS POR SUCURSAL"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte6() {
+        try {
+            var reporte6= this.reporteRepository.getReporte6();
+            var jp = this.reportes.genReporte6(reporte6, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 3 EMPLEADOS CON MAS INGRESOS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte7() {
+        try {
+            var reporte7= this.reporteRepository.getReporte7();
+            var jp = this.reportes.genReporte7(reporte7, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 3 EMPLEADOS CON MAS INGRESOS"));
             jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
             jv.setVisible(true);
         } catch (JRException e) {
