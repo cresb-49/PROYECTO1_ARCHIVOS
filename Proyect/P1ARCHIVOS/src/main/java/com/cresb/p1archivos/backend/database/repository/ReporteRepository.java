@@ -50,14 +50,38 @@ public class ReporteRepository extends RepositoryBase{
     }
     
     public List<Reporte4>getReporte4() throws SQLException{
-        String sql = "select s.id,s.nombre,count(pla.sucursal) as cantidad from comercio.venta as v inner join colaborador.planilla as pla on pla.empleado = v.empleado inner join infraestructura.sucursal as s on s.id = pla.sucursal GROUP BY s.id order by cantidad desc";
+        String sql = "select s.id,s.nombre,sum(v.valor) as vendido from colaborador.planilla as p inner join comercio.venta as v on v.empleado = p.empleado inner join infraestructura.sucursal as s on p.sucursal = s.id group by s.id order by vendido desc";
         List<Reporte4> reporte4 = new ArrayList<>();
         try (PreparedStatement statement = GetConnection().prepareStatement(sql);ResultSet rs = statement.executeQuery();) {
             while (rs.next()) {
-                var r = new Reporte3(rs.getString("id"), rs.getString("nombre"), rs.getInt("cantidad"));
-                reporte4.add(r);
+                //var r = new Reporte4(rs.getString("id"), rs.getString("nombre"), rs.getInt("cantidad"));
+                //reporte4.add(r);
             }    
         }
         return reporte4;
+    }
+
+    public List<Reporte5>getReporte5() throws SQLException{
+        String sql = "";
+        List<Reporte5> reporte5 = new ArrayList<>();
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql);ResultSet rs = statement.executeQuery();) {
+            while (rs.next()) {
+                var r = new Reporte5(rs.getString("nickname"),rs.getString("nombre"),rs.getInt("cantidad"));
+                reporte5.add(r);
+            }
+        }
+        return reporte5;
+    }
+
+    public List<Reporte6>getReporte6() throws SQLException{
+        String sql = "";
+        List<Reporte6> reporte6 = new ArrayList<>();
+        try (PreparedStatement statement = GetConnection().prepareStatement(sql);ResultSet rs = statement.executeQuery();) {
+            while (rs.next()) {
+                //var r = new Reporte6(rs.getString("nickname"),rs.getString("nombre"),rs.getInt("cantidad"));
+                //reporte6.add(r);
+            }
+        }
+        return reporte6;
     }
 }
