@@ -1,14 +1,20 @@
-package com.cresb.p1archivos.frontend.pantallas;
+package com.cresb.p1archivos.frontend.pantallas.admin;
 
 import com.cresb.p1archivos.backend.database.repository.EmpleadoRepository;
 import com.cresb.p1archivos.backend.database.repository.PlanillaRepository;
+import com.cresb.p1archivos.backend.database.repository.ReporteRepository;
 import com.cresb.p1archivos.backend.database.repository.SucursalRepository;
 import com.cresb.p1archivos.backend.models.Empleado;
 import com.cresb.p1archivos.backend.models.Rol;
 import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.backend.security.Encriptar;
+import java.awt.Dialog.ModalExclusionType;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -22,6 +28,8 @@ public class FrameAdmin extends javax.swing.JFrame {
     private final SucursalRepository sucursalRepository = new SucursalRepository();
     private final PlanillaRepository planillaRepository = new PlanillaRepository();
     private final EmpleadoRepository empleadoRepository = new EmpleadoRepository();
+    private final ReporteRepository reporteRepository = new ReporteRepository();
+    private final Reportes reportes = new Reportes();
     
     /**
      * Creates new form FrameAdmin
@@ -252,8 +260,18 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel14.setText("Top 5 productos con más ingresos por sucursal");
 
         jButton2.setText("Generar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Generar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Generar");
 
@@ -409,6 +427,14 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RadioAdminStateChanged
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.generarreporte1();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.generarreporte2();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboSucursales;
     private javax.swing.JTextField FieldNombre;
@@ -495,6 +521,38 @@ public class FrameAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se puede conectar a la base de datos","Error de conexion",JOptionPane.ERROR_MESSAGE);
         }catch(NullPointerException ex){
             JOptionPane.showMessageDialog(this, "No se recuperar la sucursal","Error de conexion",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void generarreporte1() {
+        try {
+            var reporte1 = this.reporteRepository.getReporte1();
+            var jp = this.reportes.genReporte1(reporte1, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 10 PORDUCTOS MAS VENDIDOS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarreporte2() {
+         try {
+            var reporte2 = this.reporteRepository.getReporte2();
+            var jp = this.reportes.genReporte2(reporte2, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 10 PORDUCTOS MAS VENDIDOS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
