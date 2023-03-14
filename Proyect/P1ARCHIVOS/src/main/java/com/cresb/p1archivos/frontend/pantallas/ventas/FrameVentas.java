@@ -377,15 +377,14 @@ public class FrameVentas extends javax.swing.JFrame {
                 //Asignacion del descuento de la venta
                 this.venta.setDescuento(descuento);
                 //Mostrar al usuario cual fue el resultado del descuento
-                
+                var val = this.calcularValor() * (1-this.venta.getDescuento());
                 if(this.venta.getDescuento() != 0){
                     //Mostrar el valor final de venta
-                    var val = this.calcularValor() * (1-this.venta.getDescuento());
                     this.jTextField2.setText("Q. "+val);
                     //Mostrar al usuario el valor final
                     JOptionPane.showMessageDialog(this,String.format("La compra tuvo un descuento de %d%s el valor final es Q.%f",(int)(descuento*100),"%",val),"Descuento",JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+                this.venta.setValor(val);
                 //Registro de la venta 
                 this.ventaRepository.agregarVenta(this.venta);
                 
@@ -491,7 +490,7 @@ public class FrameVentas extends javax.swing.JFrame {
     }
 
     private void generarObjetoVenta() {
-        venta = new Venta(null, null, this.cliente, this.empleado, 0, descripcion);
+        venta = new Venta(null, null, this.cliente, this.empleado, 0, descripcion,0);
     }
     
     private void mostrarValor() {

@@ -1,7 +1,7 @@
 package com.cresb.p1archivos.backend.models;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Venta {
 
@@ -11,14 +11,16 @@ public class Venta {
     private Empleado empleado;
     private double descuento;
     private List<Descripcion> descripcion;
+    private double valor;
 
-    public Venta(String id, String fecha, Cliente cliente, Empleado empleado, double descuento,List<Descripcion> descripcion) {
+    public Venta(String id, String fecha, Cliente cliente, Empleado empleado, double descuento, List<Descripcion> descripcion, double valor) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
         this.empleado = empleado;
         this.descuento = descuento;
-        this.descripcion=descripcion;
+        this.descripcion = descripcion;
+        this.valor = valor;
     }
 
     public String getId() {
@@ -69,34 +71,37 @@ public class Venta {
         this.descripcion = descripcion;
     }
 
-    @Override
-    public String toString() {
-        return "Venta{" + "id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", empleado=" + empleado + ", descuento=" + descuento + '}';
+    public double getValor() {
+        return valor;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Venta other = (Venta) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.fecha);
+        return hash;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Venta other = (Venta) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return Objects.equals(this.fecha, other.fecha);
+    }
 }
