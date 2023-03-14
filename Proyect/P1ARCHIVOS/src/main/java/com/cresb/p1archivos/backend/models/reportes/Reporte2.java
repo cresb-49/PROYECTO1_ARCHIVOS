@@ -1,7 +1,10 @@
 package com.cresb.p1archivos.backend.models.reportes;
 
 import java.util.Objects;
-
+/**
+ * Top 10 de clientes que más ganancias generan
+ * @author benjamin
+ */
 public class Reporte2 {
     private String nit;
     private String nombre;

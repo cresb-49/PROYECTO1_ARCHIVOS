@@ -80,7 +80,6 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -90,7 +89,6 @@ public class FrameAdmin extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
@@ -234,7 +232,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                     .addComponent(ComboSucursales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro Empleado", jPanel1);
@@ -250,8 +248,6 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel9.setText("Top 3 empleados con más ventas");
 
         jLabel10.setText("Top 3 empleados con más ingresos");
-
-        jLabel11.setText("Top 10 productos más vendidos");
 
         jLabel12.setText("Top 10 productos con más ingresos");
 
@@ -274,20 +270,43 @@ public class FrameAdmin extends javax.swing.JFrame {
         });
 
         jButton4.setText("Generar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Generar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Generar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Generar");
-
-        jButton8.setText("Generar");
 
         jButton9.setText("Generar");
 
         jButton10.setText("Generar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("Generar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -302,22 +321,21 @@ public class FrameAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel11)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14))
                 .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton11)
+                    .addComponent(jButton10)
+                    .addComponent(jButton9)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(228, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -349,10 +367,6 @@ public class FrameAdmin extends javax.swing.JFrame {
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jButton9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -363,7 +377,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jButton11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Reportes", jPanel2);
@@ -387,7 +401,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -435,6 +449,27 @@ public class FrameAdmin extends javax.swing.JFrame {
         this.generarreporte2();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.generarReporte3();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        this.generarReporte4();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        this.generarReporte5();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        this.generarReporte8();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        this.generarReporte9();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboSucursales;
     private javax.swing.JTextField FieldNombre;
@@ -453,11 +488,9 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -541,11 +574,103 @@ public class FrameAdmin extends javax.swing.JFrame {
     }
 
     private void generarreporte2() {
-         try {
+        try {
             var reporte2 = this.reporteRepository.getReporte2();
             var jp = this.reportes.genReporte2(reporte2, empleado);
             JasperViewer jv = new JasperViewer(jp, false);
-            jv.setTitle(String.valueOf("TOP 10 PORDUCTOS MAS VENDIDOS"));
+            jv.setTitle(String.valueOf("TOP 10 CLIENTES QUE MAS GANANCIAS GENERAN"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte3() {
+        try {
+            var reporte3= this.reporteRepository.getReporte3();
+            var jp = this.reportes.genReporte3(reporte3, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 3 SUCURSALES CON MAS VENTAS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte4() {
+        try {
+            var reporte4= this.reporteRepository.getReporte4();
+            var jp = this.reportes.genReporte4(reporte4, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 3 SUCURSALES CON MAS INGRESOS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte5() {
+        try {
+            var reporte5= this.reporteRepository.getReporte5();
+            var jp = this.reportes.genReporte5(reporte5, empleado);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 3 EMPLEADOS CON MAS VENTAS"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte8() {
+        try {
+            SeleccionSucursal seleccionSucursal = new SeleccionSucursal(this, true);
+            seleccionSucursal.setVisible(true);
+            var sucursal = seleccionSucursal.getSucursal();
+            seleccionSucursal.setSucursal(null);
+            seleccionSucursal = null;
+            
+            var reporte8= this.reporteRepository.getReporte8(sucursal.getId());
+            var jp = this.reportes.genReporte8(reporte8, empleado,sucursal);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 5 PRODUCTOS MAS VENDIDOS POR SUCURSAL"));
+            jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+            jv.setVisible(true);
+        } catch (JRException e) {
+            System.out.println("Error no se puede generar el recibo: "+e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+
+    private void generarReporte9() {
+        try {
+            SeleccionSucursal seleccionSucursal = new SeleccionSucursal(this, true);
+            seleccionSucursal.setVisible(true);
+            var sucursal = seleccionSucursal.getSucursal();
+            seleccionSucursal.setSucursal(null);
+            seleccionSucursal = null;
+            
+            var reporte9= this.reporteRepository.getReporte9(sucursal.getId());
+            var jp = this.reportes.genReporte9(reporte9, empleado,sucursal);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setTitle(String.valueOf("TOP 5 PRODUCTOS MAS VENDIDOS POR SUCURSAL"));
             jv.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
             jv.setVisible(true);
         } catch (JRException e) {

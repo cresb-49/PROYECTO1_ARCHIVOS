@@ -3,7 +3,7 @@ package com.cresb.p1archivos.backend.models.reportes;
 import java.util.Objects;
 
 /**
- *
+ * Top 3 sucursales con más ventas
  * @author Dango
  */
 public class Reporte3 {

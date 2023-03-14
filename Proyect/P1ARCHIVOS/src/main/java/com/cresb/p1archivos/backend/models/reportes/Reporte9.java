@@ -1,18 +1,19 @@
 package com.cresb.p1archivos.backend.models.reportes;
 
 /**
- * Top 3 sucursales con más ingresos
- * @author Dango
+ *
+ * @author benjamin
  */
-public class Reporte4 {
-    
+public class Reporte9 {
     private String id;
     private String nombre;
+    private String marca;
     private double ingreso;
 
-    public Reporte4(String id, String nombre, double ingreso) {
+    public Reporte9(String id, String nombre, String marca, double ingreso) {
         this.id = id;
         this.nombre = nombre;
+        this.marca = marca;
         this.ingreso = ingreso;
     }
 
@@ -32,16 +33,25 @@ public class Reporte4 {
         this.nombre = nombre;
     }
 
-    public double getIngreso() {
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public double getingreso() {
         return ingreso;
     }
 
-    public void setIngreso(double ingreso) {
+    public void setingreso(double ingreso) {
         this.ingreso = ingreso;
     }
 
     @Override
     public String toString() {
-        return "Reporte4{" + "id=" + id + ", nombre=" + nombre + ", ingreso=" + ingreso + '}';
+        return "Reporte9{" + "id=" + id + ", nombre=" + nombre + ", marca=" + marca + ", ingreso=" + ingreso + '}';
     }
+    
 }

@@ -2,6 +2,11 @@ package com.cresb.p1archivos.backend.models.reportes;
 
 import java.util.Objects;
 
+
+/**
+ * Top 3 empleados con más ingresos
+ * @author benjamin
+ */
 public class Reporte6 {
     private String id;
     private String nombre;

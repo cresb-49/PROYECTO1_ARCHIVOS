@@ -3,7 +3,7 @@ package com.cresb.p1archivos.backend.models.reportes;
 import java.util.Objects;
 
 /**
- * Modelo para reporte 10 porductos mas vendidos
+ * Top 10 productos más vendidos
  * @author Dango
  */
 public class Reporte1 {
