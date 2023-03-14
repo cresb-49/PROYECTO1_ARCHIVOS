@@ -12,8 +12,9 @@ public class Venta {
     private double descuento;
     private List<Descripcion> descripcion;
     private double valor;
+    private String sucursal;
 
-    public Venta(String id, String fecha, Cliente cliente, Empleado empleado, double descuento, List<Descripcion> descripcion, double valor) {
+    public Venta(String id, String fecha, Cliente cliente, Empleado empleado, double descuento, List<Descripcion> descripcion, double valor, String sucursal) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
@@ -21,6 +22,7 @@ public class Venta {
         this.descuento = descuento;
         this.descripcion = descripcion;
         this.valor = valor;
+        this.sucursal = sucursal;
     }
 
     public String getId() {
@@ -79,29 +81,38 @@ public class Venta {
         this.valor = valor;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 61 * hash + Objects.hashCode(this.id);
-        hash = 61 * hash + Objects.hashCode(this.fecha);
-        return hash;
+    public String getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(String sucursal) {
+        this.sucursal = sucursal;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Venta other = (Venta) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.fecha, other.fecha);
+    public String toString() {
+        return "Venta{" +
+                "id='" + id + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", cliente=" + cliente +
+                ", empleado=" + empleado +
+                ", descuento=" + descuento +
+                ", descripcion=" + descripcion +
+                ", valor=" + valor +
+                ", sucursal='" + sucursal + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Venta venta = (Venta) o;
+        return Double.compare(venta.descuento, descuento) == 0 && Double.compare(venta.valor, valor) == 0 && Objects.equals(id, venta.id) && Objects.equals(fecha, venta.fecha) && Objects.equals(cliente, venta.cliente) && Objects.equals(empleado, venta.empleado) && Objects.equals(descripcion, venta.descripcion) && Objects.equals(sucursal, venta.sucursal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fecha, cliente, empleado, descuento, descripcion, valor, sucursal);
     }
 }

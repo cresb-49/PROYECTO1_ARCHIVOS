@@ -64,9 +64,11 @@ CREATE TABLE comercio.venta(
     empleado VARCHAR(20) NOT NULL,
     descuento DECIMAL(10,2) NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
+    sucursal VARCHAR(10) NOT NULL,
     PRIMARY KEY(id),
     Foreign Key (empleado) REFERENCES colaborador.empleado(nickname),
-    Foreign Key (cliente) REFERENCES consumidor.cliente(nit)
+    Foreign Key (cliente) REFERENCES consumidor.cliente(nit),
+    Foreign Key (sucursal) REFERENCES infraestructura.sucursal(id)
 );
 CREATE TABLE comercio.descripcion(
     producto VARCHAR(10) NOT NULL,

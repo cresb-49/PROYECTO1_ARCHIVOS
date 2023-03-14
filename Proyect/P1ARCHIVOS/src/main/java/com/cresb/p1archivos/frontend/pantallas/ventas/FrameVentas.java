@@ -490,7 +490,7 @@ public class FrameVentas extends javax.swing.JFrame {
     }
 
     private void generarObjetoVenta() {
-        venta = new Venta(null, null, this.cliente, this.empleado, 0, descripcion,0);
+        venta = new Venta(null, null, this.cliente, this.empleado, 0, descripcion,0,this.sucursal.getId());
     }
     
     private void mostrarValor() {

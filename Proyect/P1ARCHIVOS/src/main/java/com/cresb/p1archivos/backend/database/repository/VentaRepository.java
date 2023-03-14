@@ -23,7 +23,7 @@ public class VentaRepository extends RepositoryBase{
      * @throws SQLException
      */
     public void agregarVenta(Venta venta) throws SQLException {
-        String sql = "INSERT INTO comercio.venta(id, fecha, cliente, empleado, descuento,valor) VALUES (?,to_timestamp(?, 'YYYY-MM-DD HH24:MI:SS'), ?, ?, ?, ?)";
+        String sql = "INSERT INTO comercio.venta(id, fecha, cliente, empleado, descuento,valor,sucursal) VALUES (?,to_timestamp(?, 'YYYY-MM-DD HH24:MI:SS'), ?, ?, ?, ? ,?)";
         try (PreparedStatement statement = GetConnection().prepareStatement(sql)) {
             statement.setString(1, venta.getId());
             statement.setString(2, venta.getFecha());
@@ -31,6 +31,7 @@ public class VentaRepository extends RepositoryBase{
             statement.setString(4, venta.getEmpleado().getNickname());
             statement.setDouble(5, venta.getDescuento());
             statement.setDouble(6, venta.getValor());
+            statement.setString(7, venta.getSucursal());
             statement.executeUpdate();
         }
     }
@@ -73,11 +74,11 @@ public class VentaRepository extends RepositoryBase{
                 String empleadoNickname = resultSet.getString("empleado");
                 double descuento = resultSet.getDouble("descuento");
                 double valor = resultSet.getDouble("valor");
-
+                String sucursal = resultSet.getString("sucursal");
                 Cliente cliente = null;
                 Empleado empleado = null;
                 List<Descripcion> descripcion = this.descripcionRepository.findByVentaId(id) ;
-                Venta venta = new Venta(id, fecha, cliente, empleado, descuento,descripcion,valor);
+                Venta venta = new Venta(id, fecha, cliente, empleado, descuento,descripcion,valor,sucursal);
                 ventas.add(venta);
             }
         }
