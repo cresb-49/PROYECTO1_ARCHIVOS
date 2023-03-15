@@ -226,6 +226,9 @@ INSERT INTO consumidor.cliente VALUES ('2345678901','Pedro Rodríguez Martínez'
 INSERT INTO consumidor.cliente VALUES ('3456789012','María Fernández Pérez');
 INSERT INTO consumidor.cliente VALUES ('4567890123','Carlos González Sánchez');
 INSERT INTO consumidor.cliente VALUES ('5678901234','Sofía Ramírez Gómez');
+INSERT INTO consumidor.cliente VALUES ('4567890123','Juan Pérez López');
+INSERT INTO consumidor.cliente VALUES ('6789012345','María González García');
+INSERT INTO consumidor.cliente VALUES ('7890123456','Pedro Hernández Sánchez');
 
 --Insercion de los datos de ventas
 INSERT INTO comercio.venta VALUES ('130323131524262', '2023-03-13 13:15:24', '1234567890', 'usuario1', 0,229.98,'S0001');
