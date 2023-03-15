@@ -550,6 +550,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         pass2 = new String(this.jPasswordField2.getPassword());
         sucursalNombre = this.ComboSucursales.getSelectedItem().toString();
         try {
+            this.verificarCampos(nombre,nickname,pass1,pass2,sucursalNombre);
             var result = this.empleadoRepository.findById(nickname);
             if(result == null){
                 //Se verifica la sucursal de trabajo
@@ -557,19 +558,24 @@ public class FrameAdmin extends javax.swing.JFrame {
                 if(sucursal == null)
                     throw new NullPointerException();
                 //Se descarta el nombre del rol ya que solo se utliza el id para registar al empleado
-                this.empleadoRepository.save(new Empleado(nickname, Encriptar.encriptar(pass2), nombre, new Rol(this.selectRol, null)));
+                var empleado = new Empleado(nickname, Encriptar.encriptar(pass2), nombre, new Rol(this.selectRol, null));
+                this.empleadoRepository.save(empleado);
                 //Si el empleado es de rol vendedor o invetario se le asigna la sucursal de trabajo de lo contrario no
                 if(selectRol == Rol.VENDEDOR || selectRol == Rol.INVENTARIO){
                     this.planillaRepository.insertarPlanilla(empleado, sucursal);
                 }
                 JOptionPane.showMessageDialog(this, "El usuario \""+nickname+"\" se registro con exito en el sistema","Registro completado",JOptionPane.INFORMATION_MESSAGE);
+                this.limpiarCampos();
             }else{
                 JOptionPane.showMessageDialog(this, "El usuario \""+nickname+"\" ya existe en el sistema","Informacion Duplicada",JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "No se puede conectar a la base de datos","Error de conexion",JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }catch(NullPointerException ex){
             JOptionPane.showMessageDialog(this, "No se recuperar la sucursal","Error de conexion",JOptionPane.ERROR_MESSAGE);
+        } catch (EmptyDataException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Error de datos",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -727,6 +733,36 @@ public class FrameAdmin extends javax.swing.JFrame {
             Logger.getLogger(FrameAdmin.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
+    }
+
+    private void verificarCampos(String nombre, String nickname, String pass1, String pass2, String sucursalNombre) throws EmptyDataException {
+        StringBuilder sb = new StringBuilder();
+        if(nombre.isEmpty() || nombre.isBlank()){
+            sb.append("- Se debe de agregar el nombre del empleado\n");
+        }
+        if(nickname.isEmpty()||nickname.isBlank()){
+            sb.append("- Se debe de agregar un nombre de usuario\n");
+        }
+        if(pass1.isEmpty()||pass1.isBlank()){
+            sb.append("- Debe de agregar un password\n");
+        }
+        if(pass2.isEmpty()||pass2.isBlank()){
+            sb.append("- Debe de agregar un password para realizar la verficacion\n");
+        }
+        if(sucursalNombre.isEmpty()||sucursalNombre.isBlank()){
+            sb.append("- Debe de agregar una sucursal de trabajo\n");
+        }
+        var result = sb.toString();
+        if(!(result.isBlank()||result.isBlank())){
+            throw new EmptyDataException(result);
+        }   
+    }
+
+    private void limpiarCampos() {
+        this.fieldNickname.setText(null);
+        this.FieldNombre.setText(null);
+        this.jPasswordField1.setText(null);
+        this.jPasswordField2.setText(null);
     }
     
 }
