@@ -587,7 +587,6 @@ public class JDynamicTable<T> {
      * @throws IllegalAccessException
      */
     private Object getDataObject(T data,String alias) throws NoSuchFieldException, IllegalAccessException {
-        //TODO: Implementacion para ingresar mas profundo en la informacion
         //Obtenemos el split de datos
         String[] partes = alias.split("\\.");
         if(partes.length == 1){
