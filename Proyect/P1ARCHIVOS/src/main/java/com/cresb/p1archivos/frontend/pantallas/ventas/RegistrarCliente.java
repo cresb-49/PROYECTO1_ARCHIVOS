@@ -111,7 +111,6 @@ public class RegistrarCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistarActionPerformed
-        // TODO add your handling code here:
         this.cliente.setNit(this.fieldNit.getText());
         this.cliente.setNombre(this.fieldNombre.getText());
         
