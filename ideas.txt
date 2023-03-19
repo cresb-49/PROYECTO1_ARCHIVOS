@@ -1,0 +1,2 @@
+TODO: realizar la verificacion de no resgutar un venta vacia
+TODO: ver como solucionar la busqueda por existecia

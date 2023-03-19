@@ -226,7 +226,7 @@ INSERT INTO consumidor.cliente VALUES ('2345678901','Pedro Rodríguez Martínez'
 INSERT INTO consumidor.cliente VALUES ('3456789012','María Fernández Pérez');
 INSERT INTO consumidor.cliente VALUES ('4567890123','Carlos González Sánchez');
 INSERT INTO consumidor.cliente VALUES ('5678901234','Sofía Ramírez Gómez');
-INSERT INTO consumidor.cliente VALUES ('4567890123','Juan Pérez López');
+INSERT INTO consumidor.cliente VALUES ('4567890125','Juan Pérez López');
 INSERT INTO consumidor.cliente VALUES ('6789012345','María González García');
 INSERT INTO consumidor.cliente VALUES ('7890123456','Pedro Hernández Sánchez');
 
