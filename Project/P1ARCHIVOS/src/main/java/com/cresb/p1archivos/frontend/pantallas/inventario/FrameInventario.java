@@ -59,10 +59,7 @@ public class FrameInventario extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,16 +99,6 @@ public class FrameInventario extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Existencia");
-
-        jMenu1.setText("Productos");
-
-        jMenuItem1.setText("Solicitar Producto");
-        jMenu1.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu1);
-
         jMenu2.setText("Empleado: empleado");
         jMenu2.setEnabled(false);
         jMenuBar1.add(jMenu2);
@@ -136,8 +123,7 @@ public class FrameInventario extends javax.swing.JFrame {
                         .addComponent(jRadioButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jRadioButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton4))
+                        .addGap(93, 93, 93))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -153,8 +139,7 @@ public class FrameInventario extends javax.swing.JFrame {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton4))
+                    .addComponent(jRadioButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -183,10 +168,11 @@ public class FrameInventario extends javax.swing.JFrame {
                 }else if(jRadioButton2.isSelected()){
                     //por codigo
                     this.setInformaciondt(this.stockRepository.findStockBySucursalAndCode(sucursal.getId(),parametro));
-                }else if(jRadioButton4.isSelected()){
+                }
+                /*else if(jRadioButton4.isSelected()){
                     //por existencia
                     this.setInformaciondt(this.stockRepository.findStockBySucursalAndExistencia(sucursal.getId(),Integer.parseInt(parametro)));
-                }
+                }*/
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -198,14 +184,11 @@ public class FrameInventario extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

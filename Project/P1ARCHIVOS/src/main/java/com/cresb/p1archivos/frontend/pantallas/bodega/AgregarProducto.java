@@ -8,10 +8,9 @@ import com.cresb.p1archivos.backend.database.repository.BodegaRepository;
 import com.cresb.p1archivos.backend.database.repository.ProductoRepository;
 import com.cresb.p1archivos.backend.models.Bodega;
 import com.cresb.p1archivos.backend.models.Producto;
+import java.awt.HeadlessException;
 
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +24,8 @@ public class AgregarProducto extends javax.swing.JDialog {
 
     /**
      * Creates new form AgregarProducto
+     * @param parent
+     * @param modal
      */
     public AgregarProducto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -188,7 +189,7 @@ public class AgregarProducto extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Incosistencia en la informacion asignada:\n"+ex.getMessage(), "Error de campos", JOptionPane.ERROR_MESSAGE);
         } catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Debe de agregar un numero en valor y cantidad:\n"+ex.getMessage(), "Error de campos", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex){
+        } catch (HeadlessException ex){
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed

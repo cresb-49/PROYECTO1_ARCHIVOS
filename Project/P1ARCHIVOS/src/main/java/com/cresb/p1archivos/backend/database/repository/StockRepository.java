@@ -68,10 +68,11 @@ public class StockRepository extends RepositoryBase {
             while (rs.next()) {
                 String id = rs.getString("id");
                 String nombre = rs.getString("nombre");
+                String marc = rs.getString("marca");
                 double valor = rs.getDouble("valor");
                 String des = rs.getString("descripcion");
                 int cantidad = rs.getInt("cantidad");
-                stocks.add(new Stock(new Producto(id, nombre, marca, valor, des),sucursal,cantidad));
+                stocks.add(new Stock(new Producto(id, nombre, marc, valor, des),sucursal,cantidad));
             }
             return stocks;
         }
