@@ -198,7 +198,7 @@ public class FormularioSolicitud extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int valor = (int) jSpinner1.getValue();
         if(valor < 1){
-            JOptionPane.showMessageDialog(this, "El valor a solicitar debe ser mayor o igual", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "La cantidad a solicitar debe ser mayor o igual a 1", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             if(valor > this.selectedItem.getStockOrigen().getCantidad()){
                 JOptionPane.showMessageDialog(this, "No puede solicitar mas productos de los disponibles", "Error", JOptionPane.ERROR_MESSAGE);
@@ -211,23 +211,32 @@ public class FormularioSolicitud extends javax.swing.JDialog {
                     try {
                         if(this.selectedItem.isIsSucursal()){
                             //Update sucursal origen
-                            var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()-this.selectedItem.getCantidad()));
+                            var cantidadStockViejo = (this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
+                            var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), cantidadStockViejo);
+                            //System.out.println("Stock viejo: "+stockViejo.toString());
                             this.stockRepository.update(stockViejo);
                             //Update sucursal destino
-                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                            var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
+                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
+                            //System.out.println("Stock nuevo: "+stockNuevo.toString());
                             this.agregarStock(stockNuevo);
 
                         }else{
                             //Update bodega
-                            var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad()));
+                            var cantidadNuevaBodega =(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
+                            var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),cantidadNuevaBodega);
+                            //System.out.println("Stock viejo: "+bodega.toString());
                             this.bodegaRepository.update(bodega);
                             //Update sucursal destino
-                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad()));
+                            var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
+                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
+                            //System.out.println("Stock nuevo: "+stockNuevo.toString());
                             this.agregarStock(stockNuevo);
                         }
                         JOptionPane.showMessageDialog(this, "¡La operación se completó con éxito!", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
                         this.dispose();
                     } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error de base de datos", JOptionPane.ERROR_MESSAGE);
                         e.printStackTrace();
                     }
                 }
@@ -258,6 +267,7 @@ public class FormularioSolicitud extends javax.swing.JDialog {
                 jComboBox1.addItem(disponiblidadSolicitud.getLugar());
             }
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error de base de datos", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
     }
