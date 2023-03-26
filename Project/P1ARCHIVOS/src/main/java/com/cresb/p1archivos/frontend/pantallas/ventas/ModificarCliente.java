@@ -3,8 +3,6 @@ package com.cresb.p1archivos.frontend.pantallas.ventas;
 import com.cresb.p1archivos.backend.database.repository.ClienteRepository;
 import com.cresb.p1archivos.backend.models.Cliente;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -134,7 +132,11 @@ public class ModificarCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.buscarclienteAsignar();
+        if(this.fieldNitBusqueda.getText().equals("CF")){
+            JOptionPane.showMessageDialog(this, "No se puede modificar el Consumidor Final", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            this.buscarclienteAsignar();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -171,6 +173,8 @@ public class ModificarCliente extends javax.swing.JDialog {
            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "No se puede recuperar la informacion del cliente","Error de busqueda",JOptionPane.ERROR_MESSAGE);
+        } catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Error de busqueda",JOptionPane.ERROR_MESSAGE);
         }
     }
     
