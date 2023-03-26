@@ -321,6 +321,7 @@ public class FrameVentas extends javax.swing.JFrame {
                     this.mostrarInfoCliente();
                     this.generarObjetoVenta();
                 }
+                this.btnBuscar.setEnabled(false);
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Error al recuperar la informacion del cliente", "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -399,60 +400,63 @@ public class FrameVentas extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         if (this.venta != null) {
-            // Realizamos la verificacion que hayan datos en la descripcion de la venta
-            if (!this.descripcion.isEmpty()) {
-                // Asignacion de codigo y fecha de venta
-                this.venta.setId(dateManagment.getIdDateTime());
-                this.venta.setFecha(dateManagment.currentDateTime());
-                try {
-                    // Obtenemos el porcentaje de descuento segun el valor de la compra anterior
-                    var result = this.ventaRepository.obtenerCostoUltimaCompra(this.cliente.getNit());
-                    double descuento = 0;
-                    if (result >= 1000 && result < 5000) {
-                        descuento = 0.02;
-                    } else if (result >= 5000 && result < 10000) {
-                        descuento = 0.05;
-                    } else if (result >= 10000) {
-                        descuento = 0.1;
+            int r = JOptionPane.showConfirmDialog(this, "Confirmacion de Venta", "Confirmacion", JOptionPane.YES_NO_OPTION);
+            if(r == JOptionPane.YES_OPTION){
+                // Realizamos la verificacion que hayan datos en la descripcion de la venta
+                if (!this.descripcion.isEmpty()) {
+                    // Asignacion de codigo y fecha de venta
+                    this.venta.setId(dateManagment.getIdDateTime());
+                    this.venta.setFecha(dateManagment.currentDateTime());
+                    try {
+                        // Obtenemos el porcentaje de descuento segun el valor de la compra anterior
+                        var result = this.ventaRepository.obtenerCostoUltimaCompra(this.cliente.getNit());
+                        double descuento = 0;
+                        if (result >= 1000 && result < 5000) {
+                            descuento = 0.02;
+                        } else if (result >= 5000 && result < 10000) {
+                            descuento = 0.05;
+                        } else if (result >= 10000) {
+                            descuento = 0.1;
+                        }
+                        // Asignacion del descuento de la venta
+                        this.venta.setDescuento(descuento);
+                        // Mostrar al usuario cual fue el resultado del descuento
+                        var val = this.calcularValor() * (1 - this.venta.getDescuento());
+                        if (this.venta.getDescuento() != 0) {
+                            // Mostrar el valor final de venta
+                            this.jTextField2.setText("Q. " + val);
+                            // Mostrar al usuario el valor final
+                            JOptionPane.showMessageDialog(this,
+                                    String.format("La compra tuvo un descuento de %d%s el valor final es Q.%f",
+                                            (int) (descuento * 100), "%", val),
+                                    "Descuento", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        this.venta.setValor(val);
+                        // Registro de la venta
+                        this.ventaRepository.agregarVenta(this.venta);
+
+                        // Registro de la descripciones de la venta
+                        for (Descripcion descripcion1 : this.descripcion) {
+                            this.descripcionRepository.save(descripcion1);
+                        }
+
+                        // Actualizacion del stock en la sucursal
+                        this.actualizarStock();
+
+                        // Reiniciar la ventana de ventas
+                        JOptionPane.showMessageDialog(this, "La venta se realizo exitosamente!!!", "Exito",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        this.reinicioDeVenta();
+
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(this, "No se puede registrar la venta en el sistema", "Error de venta",
+                                JOptionPane.ERROR_MESSAGE);
+                        ex.printStackTrace();
                     }
-                    // Asignacion del descuento de la venta
-                    this.venta.setDescuento(descuento);
-                    // Mostrar al usuario cual fue el resultado del descuento
-                    var val = this.calcularValor() * (1 - this.venta.getDescuento());
-                    if (this.venta.getDescuento() != 0) {
-                        // Mostrar el valor final de venta
-                        this.jTextField2.setText("Q. " + val);
-                        // Mostrar al usuario el valor final
-                        JOptionPane.showMessageDialog(this,
-                                String.format("La compra tuvo un descuento de %d%s el valor final es Q.%f",
-                                        (int) (descuento * 100), "%", val),
-                                "Descuento", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    this.venta.setValor(val);
-                    // Registro de la venta
-                    this.ventaRepository.agregarVenta(this.venta);
-
-                    // Registro de la descripciones de la venta
-                    for (Descripcion descripcion1 : this.descripcion) {
-                        this.descripcionRepository.save(descripcion1);
-                    }
-
-                    // Actualizacion del stock en la sucursal
-                    this.actualizarStock();
-
-                    // Reiniciar la ventana de ventas
-                    JOptionPane.showMessageDialog(this, "La venta se realizo exitosamente!!!", "Exito",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    this.reinicioDeVenta();
-
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "No se puede registrar la venta en el sistema", "Error de venta",
+                } else {
+                    JOptionPane.showMessageDialog(this, "La venta por lo menos debe de contener un producto", "Error de venta",
                             JOptionPane.ERROR_MESSAGE);
-                    ex.printStackTrace();
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "La venta por lo menos debe de contener un producto", "Error de venta",
-                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }// GEN-LAST:event_jButton1ActionPerformed
@@ -630,6 +634,8 @@ public class FrameVentas extends javax.swing.JFrame {
     }
 
     private void reinicioDeVenta() {
+        //Activacion del boton de busqueda de cliente
+        this.btnBuscar.setEnabled(true);
         // Eliminacion de los datos
         this.venta = null;
         this.cliente = null;
