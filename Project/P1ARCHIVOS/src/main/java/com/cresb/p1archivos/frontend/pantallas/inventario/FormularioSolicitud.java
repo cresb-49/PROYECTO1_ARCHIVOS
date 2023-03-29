@@ -200,46 +200,50 @@ public class FormularioSolicitud extends javax.swing.JDialog {
         if(valor < 1){
             JOptionPane.showMessageDialog(this, "La cantidad a solicitar debe ser mayor o igual a 1", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if(valor > this.selectedItem.getStockOrigen().getCantidad()){
-                JOptionPane.showMessageDialog(this, "No puede solicitar mas productos de los disponibles", "Error", JOptionPane.ERROR_MESSAGE);
-            }else{
-                this.selectedItem.setCantidad(valor);
-                this.selectedItem.setStockDestino(this.stockDestino);
-                //System.out.println(this.selectedItem.toString());
-                int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                if(respuesta == JOptionPane.YES_OPTION) {
-                    try {
-                        if(this.selectedItem.isIsSucursal()){
-                            //Update sucursal origen
-                            var cantidadStockViejo = (this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
-                            var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), cantidadStockViejo);
-                            //System.out.println("Stock viejo: "+stockViejo.toString());
-                            this.stockRepository.update(stockViejo);
-                            //Update sucursal destino
-                            var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
-                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
-                            //System.out.println("Stock nuevo: "+stockNuevo.toString());
-                            this.agregarStock(stockNuevo);
+            if(this.selectedItem != null){
+                if(valor > this.selectedItem.getStockOrigen().getCantidad()){
+                    JOptionPane.showMessageDialog(this, "No puede solicitar mas productos de los disponibles", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    this.selectedItem.setCantidad(valor);
+                    this.selectedItem.setStockDestino(this.stockDestino);
+                    //System.out.println(this.selectedItem.toString());
+                    int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                    if(respuesta == JOptionPane.YES_OPTION) {
+                        try {
+                            if(this.selectedItem.isIsSucursal()){
+                                //Update sucursal origen
+                                var cantidadStockViejo = (this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
+                                var stockViejo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockOrigen().getSucursal(), cantidadStockViejo);
+                                //System.out.println("Stock viejo: "+stockViejo.toString());
+                                this.stockRepository.update(stockViejo);
+                                //Update sucursal destino
+                                var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
+                                var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
+                                //System.out.println("Stock nuevo: "+stockNuevo.toString());
+                                this.agregarStock(stockNuevo);
 
-                        }else{
-                            //Update bodega
-                            var cantidadNuevaBodega =(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
-                            var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),cantidadNuevaBodega);
-                            //System.out.println("Stock viejo: "+bodega.toString());
-                            this.bodegaRepository.update(bodega);
-                            //Update sucursal destino
-                            var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
-                            var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
-                            //System.out.println("Stock nuevo: "+stockNuevo.toString());
-                            this.agregarStock(stockNuevo);
+                            }else{
+                                //Update bodega
+                                var cantidadNuevaBodega =(this.selectedItem.getStockOrigen().getCantidad()-this.selectedItem.getCantidad());
+                                var bodega = new Bodega(this.selectedItem.getStockOrigen().getProducto(),cantidadNuevaBodega);
+                                //System.out.println("Stock viejo: "+bodega.toString());
+                                this.bodegaRepository.update(bodega);
+                                //Update sucursal destino
+                                var cantidadStockDestino = (this.selectedItem.getStockDestino().getCantidad()+this.selectedItem.getCantidad());
+                                var stockNuevo = new Stock(this.selectedItem.getStockOrigen().getProducto(), this.selectedItem.getStockDestino().getSucursal(), cantidadStockDestino);
+                                //System.out.println("Stock nuevo: "+stockNuevo.toString());
+                                this.agregarStock(stockNuevo);
+                            }
+                            JOptionPane.showMessageDialog(this, "¡La operación se completó con éxito!", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                            this.dispose();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error de base de datos", JOptionPane.ERROR_MESSAGE);
+                            e.printStackTrace();
                         }
-                        JOptionPane.showMessageDialog(this, "¡La operación se completó con éxito!", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                        this.dispose();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error de base de datos", JOptionPane.ERROR_MESSAGE);
-                        e.printStackTrace();
                     }
                 }
+            }else{
+                JOptionPane.showMessageDialog(this, "No se puede realizar la operacion no hay lugar donde solicitar el producto", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
