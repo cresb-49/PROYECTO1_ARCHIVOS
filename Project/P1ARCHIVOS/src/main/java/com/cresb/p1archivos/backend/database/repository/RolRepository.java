@@ -5,14 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RolRepository extends RepositoryBase{
+public class RolRepository extends RepositoryBase {
 
     public RolRepository() {
     }
 
     public void insert(Rol rol) throws SQLException {
         String query = "INSERT INTO colaboradores.rol (id, nombre) VALUES (?, ?)";
-        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+        try ( PreparedStatement statement = GetConnection().prepareStatement(query)) {
             statement.setInt(1, rol.getId());
             statement.setString(2, rol.getNombre());
             statement.executeUpdate();
@@ -21,12 +21,13 @@ public class RolRepository extends RepositoryBase{
 
     public Rol findById(int id) throws SQLException {
         String query = "SELECT * FROM colaboradores.rol WHERE id = ?";
-        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+        try ( PreparedStatement statement = GetConnection().prepareStatement(query)) {
             statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                return new Rol(id, nombre);
+            try ( ResultSet rs = statement.executeQuery();) {
+                if (rs.next()) {
+                    String nombre = rs.getString("nombre");
+                    return new Rol(id, nombre);
+                }
             }
         }
         return null;
@@ -35,7 +36,7 @@ public class RolRepository extends RepositoryBase{
     public List<Rol> findAll() throws SQLException {
         List<Rol> roles = new ArrayList<>();
         String query = "SELECT * FROM colaboradores.rol";
-        try (Statement statement = GetConnection().createStatement(); ResultSet rs = statement.executeQuery(query)) {
+        try ( Statement statement = GetConnection().createStatement();  ResultSet rs = statement.executeQuery(query)) {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
@@ -47,7 +48,7 @@ public class RolRepository extends RepositoryBase{
 
     public void update(Rol rol) throws SQLException {
         String query = "UPDATE colaboradores.rol SET nombre = ? WHERE id = ?";
-        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+        try ( PreparedStatement statement = GetConnection().prepareStatement(query)) {
             statement.setString(1, rol.getNombre());
             statement.setInt(2, rol.getId());
             statement.executeUpdate();
@@ -56,7 +57,7 @@ public class RolRepository extends RepositoryBase{
 
     public void delete(int id) throws SQLException {
         String query = "DELETE FROM colaboradores.rol WHERE id = ?";
-        try (PreparedStatement statement = GetConnection().prepareStatement(query)) {
+        try ( PreparedStatement statement = GetConnection().prepareStatement(query)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         }
