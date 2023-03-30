@@ -16,6 +16,7 @@ import com.cresb.p1archivos.backend.models.Sucursal;
 import com.cresb.p1archivos.backend.models.Venta;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -41,6 +42,9 @@ public class FrameVentas extends javax.swing.JFrame {
     // Descripcion de la venta
     private List<Descripcion> descripcion = new ArrayList<>();
     private Venta venta;
+    
+    //Formato de nuemeros
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
      * Creates new form FrameVentas
@@ -401,7 +405,7 @@ public class FrameVentas extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         if (this.venta != null) {
             int r = JOptionPane.showConfirmDialog(this, "Confirmacion de Venta", "Confirmacion", JOptionPane.YES_NO_OPTION);
-            if(r == JOptionPane.YES_OPTION){
+            if (r == JOptionPane.YES_OPTION) {
                 // Realizamos la verificacion que hayan datos en la descripcion de la venta
                 if (!this.descripcion.isEmpty()) {
                     // Asignacion de codigo y fecha de venta
@@ -422,6 +426,8 @@ public class FrameVentas extends javax.swing.JFrame {
                         this.venta.setDescuento(descuento);
                         // Mostrar al usuario cual fue el resultado del descuento
                         var val = this.calcularValor() * (1 - this.venta.getDescuento());
+                        val = Double.parseDouble(this.df.format(val));
+                        
                         if (this.venta.getDescuento() != 0) {
                             // Mostrar el valor final de venta
                             this.jTextField2.setText("Q. " + val);
@@ -566,7 +572,7 @@ public class FrameVentas extends javax.swing.JFrame {
         for (Descripcion descripcion1 : descripcion) {
             valor = valor + (descripcion1.getProducto().getValor() * descripcion1.getCantidad());
         }
-        return valor;
+        return Double.parseDouble(this.df.format(valor));
     }
 
     public void ModificarCantidadTabla(Descripcion descripcion) {
